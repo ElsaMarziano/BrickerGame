@@ -18,7 +18,7 @@ public class AddLifeStrategy extends BasicCollisionStrategy {
 
     public AddLifeStrategy(BrickerGameManager gameManager, Counters counters, ImageReader imageReader,
                            Vector2 windowDimensions) {
-        super(gameManager.getGameObjects(), counters.brickCounter);
+        super(gameManager, counters.brickCounter);
         this.gameManager = gameManager;
         this.imageRenderable = imageReader.readImage("assets/heart.png", true);
         this.lifeCounter = counters.lifeCounter;

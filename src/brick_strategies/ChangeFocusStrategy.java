@@ -12,9 +12,9 @@ public class ChangeFocusStrategy extends BasicCollisionStrategy {
     private final BrickerGameManager gameManager;
     private final Vector2 windowDimensions;
 
-    public ChangeFocusStrategy(GameObjectCollection gameObjects, Counter counter, BrickerGameManager gameManager,
+    public ChangeFocusStrategy(BrickerGameManager gameManager, Counter counter,
                                Vector2 windowDimensions) {
-        super(gameObjects, counter);
+        super(gameManager, counter);
         this.gameManager = gameManager;
         this.windowDimensions = windowDimensions;
     }

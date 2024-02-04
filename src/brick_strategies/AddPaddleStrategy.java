@@ -12,15 +12,16 @@ import gameobjects.FakePaddle;
 
 public class AddPaddleStrategy extends BasicCollisionStrategy {
     public static boolean paddle;
-    private final GameObjectCollection gameObjects;
+    private final BrickerGameManager gameManager;
     private final ImageRenderable paddleImage;
     private final UserInputListener inputListener;
     private final Vector2 windowDimensions;
     public Counter brickCounter;
 
-    public AddPaddleStrategy(BrickerGameManager gameManager, Counter brickCounter, GameHelper gameHelper, Vector2 windowDimensions) {
-        super(gameManager.getGameObjects(), brickCounter);
-        this.gameObjects = gameObjects;
+    public AddPaddleStrategy(BrickerGameManager gameManager, Counter brickCounter, GameHelper gameHelper,
+                             Vector2 windowDimensions) {
+        super(gameManager, brickCounter);
+        this.gameManager = gameManager;
         this.brickCounter = brickCounter;
         this.paddleImage = gameHelper.imageReader.readImage("assets/paddle.png", false);
         this.inputListener = gameHelper.userInputListener;
@@ -30,6 +31,6 @@ public class AddPaddleStrategy extends BasicCollisionStrategy {
 
     public void onCollision(GameObject brick, GameObject other) {
         super.onCollision(brick, other);
-        FakePaddle.getInstance(paddleImage, inputListener, windowDimensions, gameObjects);
+        FakePaddle.getInstance(paddleImage, inputListener, windowDimensions, gameManager);
     }
 }

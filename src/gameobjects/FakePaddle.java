@@ -1,5 +1,6 @@
 package gameobjects;
 
+import bricker.main.BrickerGameManager;
 import danogl.GameObject;
 import danogl.collisions.Collision;
 import danogl.collisions.GameObjectCollection;
@@ -32,13 +33,14 @@ public class FakePaddle extends Paddle {
     }
 
     public static void getInstance(ImageRenderable paddleImage, UserInputListener inputListener,
-                                   Vector2 windowDimensions, GameObjectCollection gameObjects) {
+                                   Vector2 windowDimensions, BrickerGameManager gameManager) {
         if (instance == null) {
             synchronized (FakePaddle.class) {
                 if (instance == null) {
-                    instance = new FakePaddle(Vector2.ZERO, new Vector2(150, 10), paddleImage, inputListener, windowDimensions, gameObjects);
+                    instance = new FakePaddle(Vector2.ZERO, new Vector2(150, 10), paddleImage, inputListener,
+                            windowDimensions, gameManager.getGameObjects());
                     instance.setCenter(new Vector2(windowDimensions.x(), windowDimensions.y()).mult(0.5f));
-                    gameObjects.addGameObject(instance);
+                    gameManager.addObject(instance);
                 }
             }
         }

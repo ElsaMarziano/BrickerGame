@@ -16,6 +16,7 @@ import danogl.util.Vector2;
 import gameobjects.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 public class BrickerGameManager extends GameManager {
@@ -139,12 +140,16 @@ public class BrickerGameManager extends GameManager {
 
     }
 
-    private void handleBall(Ball ball) {
+    public void handleBall(Ball ball) {
         return;
     }
 
-    public void deleteObject(GameObject object) {
-        this.gameObjects().removeGameObject(object);
+    public boolean deleteObject(GameObject object) {
+        return this.gameObjects().removeGameObject(object);
+    }
+
+    public boolean deleteObject(GameObject object, int layer) {
+        return this.gameObjects().removeGameObject(object, layer);
     }
 
     public void addObject(GameObject object) {

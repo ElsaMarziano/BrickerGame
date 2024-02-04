@@ -55,7 +55,7 @@ public class Ball extends GameObject {
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
-        this.manager.updateBall(this);
+        this.manager.handleBall(this);
     }
 
     public int getCollisionsCounter() {

@@ -13,14 +13,14 @@ import gameobjects.Ball;
 import java.util.Random;
 
 public class PuckBallStrategy extends BasicCollisionStrategy {
-    private final GameObjectCollection gameObjects;
+    private final BrickerGameManager gameManager;
     private final ImageRenderable imageRenderable;
     private final Sound sound;
     public Counter counter;
 
     public PuckBallStrategy(BrickerGameManager gameManager, Counter counter, GameHelper gameHelper) {
-        super(gameManager.getGameObjects, counter);
-        this.gameObjects = gameObjects;
+        super(gameManager, counter);
+        this.gameManager = gameManager;
         this.counter = counter;
         this.imageRenderable = gameHelper.imageReader.readImage("assets/mockBall.png", true);
         this.sound = gameHelper.soundReader.readSound("assets/Bubble5_4.wav");
@@ -36,7 +36,7 @@ public class PuckBallStrategy extends BasicCollisionStrategy {
     private void createBall(Vector2 center) {
         // CREATING BALL
         Ball ball = new Ball(Vector2.ZERO, new Vector2(20, 20).mult(0.75f), imageRenderable, this.sound,
-                "Puck Ball", gameManager);
+                "Puck Ball", this.gameManager);
         // Add ball object to game
         Random rand = new Random();
         double angle = rand.nextDouble() * Math.PI;
@@ -44,7 +44,7 @@ public class PuckBallStrategy extends BasicCollisionStrategy {
         float velY = (float) Math.sin(angle);
         ball.setVelocity(new Vector2(velX, velY).mult(100));
         ball.setCenter(center);
-        this.gameManager.gameObjects.addGameObject(ball);
+        this.gameManager.addObject(ball);
         this.gameManager.addObject(ball);
     }
 }
