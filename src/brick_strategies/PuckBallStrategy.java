@@ -35,7 +35,7 @@ public class PuckBallStrategy extends BasicCollisionStrategy {
 
     private void createBall(Vector2 center) {
         // CREATING BALL
-        Ball ball = new Ball(Vector2.ZERO, new Vector2(20, 20).mult(0.75f), imageRenderable, this.sound,
+        Ball ball = new Ball(Vector2.ZERO, Ball.DEFAULT_SIZE.mult(0.75f), imageRenderable, this.sound,
                 "Puck Ball", this.gameManager);
         // Add ball object to game
         Random rand = new Random();

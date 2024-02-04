@@ -2,11 +2,10 @@ package brick_strategies;
 
 import bricker.main.BrickerGameManager;
 import danogl.GameObject;
-import danogl.collisions.GameObjectCollection;
 import danogl.gui.rendering.Camera;
 import danogl.util.Counter;
 import danogl.util.Vector2;
-import gameobjects.Ball;
+
 
 public class ChangeFocusStrategy extends BasicCollisionStrategy {
     private final BrickerGameManager gameManager;
@@ -22,7 +21,7 @@ public class ChangeFocusStrategy extends BasicCollisionStrategy {
     @Override
     public void onCollision(GameObject brick, GameObject other) {
         super.onCollision(brick, other);
-        if (gameManager.camera() == null) {
+        if (gameManager.camera() == null && other.getTag().equals("Normal Ball")) {
             gameManager.setCamera(
                     new Camera(
                             this.gameManager.ball, //object to follow

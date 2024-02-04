@@ -8,6 +8,7 @@ import danogl.util.Vector2;
 import java.awt.event.KeyEvent;
 
 public class Paddle extends GameObject {
+    public static final Vector2 DEFAULT_SIZE = new Vector2(100, 15);
     private static final float MOVEMENT_SPEED = 300;
     private static final int MIN_DISTANCE_FROM_SCREEN_EDGE = 20;
     private final UserInputListener inputListener;

@@ -10,7 +10,7 @@ import danogl.gui.rendering.Renderable;
 import danogl.util.Vector2;
 
 public class Ball extends GameObject {
-
+    public static final Vector2 DEFAULT_SIZE = new Vector2(20, 20);
     private final Sound collisionSound;
     private final BrickerGameManager manager;
     private String tag = "Normal Ball";

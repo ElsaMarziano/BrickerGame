@@ -23,7 +23,7 @@ public class GraphicLifeCounter extends GameObject {
         this.hearts = new GameObject[numOfLives + 1]; // Initialize the hearts array
         for (int i = 0; i < numOfLives; i++) {
             GameObject heart = new GameObject(new Vector2(i * 30, widgetTopLeftCorner.y() - 50),
-                    new Vector2(20, 20), widgetRenderable);
+                    Heart.DEFAULT_SIZE, widgetRenderable);
             hearts[i] = heart;
             gameObjects.addGameObject(heart, Layer.BACKGROUND);
         }

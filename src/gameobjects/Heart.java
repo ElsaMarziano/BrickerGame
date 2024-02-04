@@ -9,6 +9,8 @@ import danogl.util.Counter;
 import danogl.util.Vector2;
 
 public class Heart extends GameObject {
+    public static final Vector2 DEFAULT_SIZE = new Vector2(20, 20);
+
     private final Counter lifeCounter;
     private final BrickerGameManager gameManager;
     private final Vector2 windowDimensions;

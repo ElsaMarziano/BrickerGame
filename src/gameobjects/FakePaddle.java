@@ -37,7 +37,7 @@ public class FakePaddle extends Paddle {
         if (instance == null) {
             synchronized (FakePaddle.class) {
                 if (instance == null) {
-                    instance = new FakePaddle(Vector2.ZERO, new Vector2(150, 10), paddleImage, inputListener,
+                    instance = new FakePaddle(Vector2.ZERO, Paddle.DEFAULT_SIZE, paddleImage, inputListener,
                             windowDimensions, gameManager.getGameObjects());
                     instance.setCenter(new Vector2(windowDimensions.x(), windowDimensions.y()).mult(0.5f));
                     gameManager.addObject(instance);

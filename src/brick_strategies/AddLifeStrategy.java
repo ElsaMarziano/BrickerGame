@@ -28,7 +28,7 @@ public class AddLifeStrategy extends BasicCollisionStrategy {
     @Override
     public void onCollision(GameObject brick, GameObject other) {
         super.onCollision(brick, other);
-        Heart heart = new Heart(brick.getCenter(), new Vector2(20, 20), this.imageRenderable, this.lifeCounter,
+        Heart heart = new Heart(brick.getCenter(), Heart.DEFAULT_SIZE, this.imageRenderable, this.lifeCounter,
                 this.gameManager, this.windowDimensions);
         this.gameManager.addObject(heart);
     }

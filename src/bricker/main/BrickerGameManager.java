@@ -46,14 +46,7 @@ public class BrickerGameManager extends GameManager {
     public void update(float deltaTime) {
         super.update(deltaTime);
         this.gameObjects();
-        double ballHeight = ball.getCenter().y();
         String prompt = "";
-        if (ballHeight > windowDimensions.y()) {
-            lives.decrement();
-            ball.setCenter(windowDimensions.mult(0.5f));
-            hearts.update();
-            numericCounter.update();
-        }
         if (lives.value() == 0) {
             prompt = "You lose! Play again?";
         } else if (brickCounter.value() == 0) {
@@ -94,7 +87,7 @@ public class BrickerGameManager extends GameManager {
         this.gameObjects().addGameObject(numericCounter, Layer.BACKGROUND);
 
         // CREATING BALL
-        ball = new Ball(Vector2.ZERO, new Vector2(20, 20),
+        ball = new Ball(Vector2.ZERO, Ball.DEFAULT_SIZE,
                 imageReader.readImage("assets/ball.png", true),
                 soundReader.readSound("assets/Bubble5_4.wav"), this);
         // Add ball object to game
@@ -104,11 +97,11 @@ public class BrickerGameManager extends GameManager {
         if (rand.nextBoolean()) velY = -1;
         ball.setVelocity(new Vector2(velX, velY).mult(100));
         ball.setCenter(windowDimensions.mult(0.5f));
-        this.gameObjects().addGameObject(ball);
+        this.addObject(ball);
 
         // CREATING PADDLE
         Renderable paddleImage = imageReader.readImage("assets/paddle.png", true);
-        GameObject paddle = new Paddle(Vector2.ZERO, new Vector2(150, 10), paddleImage, inputListener, windowDimensions);
+        GameObject paddle = new Paddle(Vector2.ZERO, new Vector2(100, 15), paddleImage, inputListener, windowDimensions);
         paddle.setCenter(new Vector2(windowDimensions.x() / 2, windowDimensions.y() - 50));
         this.gameObjects().addGameObject(paddle);
     }
@@ -141,7 +134,15 @@ public class BrickerGameManager extends GameManager {
     }
 
     public void handleBall(Ball ball) {
-        return;
+        double ballHeight = ball.getCenter().y();
+        if (ballHeight > windowDimensions.y()) {
+            if (ball.getTag().equals("Normal Ball")) {
+                lives.decrement();
+                ball.setCenter(windowDimensions.mult(0.5f));
+                hearts.update();
+                numericCounter.update();
+            } else this.deleteObject(ball);
+        }
     }
 
     public boolean deleteObject(GameObject object) {
