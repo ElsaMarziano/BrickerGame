@@ -37,18 +37,15 @@ public class BrickerGameManager extends GameManager {
     private GraphicLifeCounter hearts;
     private NumericLifeCounter numericCounter;
     private GameHelper gameHelper;
-    private final UserInputListener inputListener;
+    private UserInputListener inputListener;
 
-    public BrickerGameManager(String windowTitle, Vector2 windowSize,
-                              UserInputListener inputListener) {
+    public BrickerGameManager(String windowTitle, Vector2 windowSize) {
         super(windowTitle, windowSize);
-        this.inputListener = inputListener;
     }
 
     public static void main(String[] args) {
         Vector2 windowSize= new Vector2(700, 500);
-        new BrickerGameManager("Bricker", windowSize,
-                ).run();
+        new BrickerGameManager("Bricker", windowSize).run();
     }
 
     @Override
@@ -76,6 +73,7 @@ public class BrickerGameManager extends GameManager {
     public void initializeGame(ImageReader imageReader, SoundReader soundReader,
                                UserInputListener inputListener,
                                WindowController windowController) {
+        this.inputListener = inputListener;
         this.gameHelper = new GameHelper(imageReader, soundReader, inputListener);
         super.initializeGame(imageReader, soundReader, inputListener,
                 windowController);
