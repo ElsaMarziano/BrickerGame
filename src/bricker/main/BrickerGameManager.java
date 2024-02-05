@@ -25,13 +25,16 @@ public class BrickerGameManager extends GameManager {
     private static final int INITIAL_LIVES = 3;
     private static final String LOSE_MASSAGE = "You lose! Play again?";
     private static final String WIN_MASSAGE = "You win! Play again?";
+    private static final String INCORRECT_NUM_OF_ARGS =
+            "Invalid input, try again with 2 parameters or 0";
+    public static int rowsBricks = 7;
+    public static int columnsBricks = 8;
 
     public Counter brickCounter = new Counter(0);
     public Counter lives = new Counter(INITIAL_LIVES);
     private final Counters counters = new Counters(lives, brickCounter);
     public Ball ball;
-    public int rowsBricks = 7;
-    public int columnsBricks = 8;
+
     private Vector2 windowDimensions;
     private WindowController windowController;
     private GraphicLifeCounter hearts;
@@ -45,6 +48,12 @@ public class BrickerGameManager extends GameManager {
 
     public static void main(String[] args) {
         Vector2 windowSize= new Vector2(700, 500);
+        if (args.length == 2){
+            rowsBricks = Integer.parseInt(args[0]);
+            columnsBricks = Integer.parseInt(args[1]);
+        } else if (args.length != 0){ //num of args is not 2 and not 0
+            System.err.println(INCORRECT_NUM_OF_ARGS);
+        }
         new BrickerGameManager("Bricker", windowSize).run();
     }
 
@@ -128,8 +137,8 @@ public class BrickerGameManager extends GameManager {
     }
 
     private void createBricks(Vector2 windowDimensions) {
-        for (int i = 0; i < this.columnsBricks; i++) {
-            for (int j = 0; j < this.rowsBricks; j++) {
+        for (int i = 0; i < columnsBricks; i++) {
+            for (int j = 0; j < rowsBricks; j++) {
                 Vector2 topLeftCorner = new Vector2(80 * i + 45, 25 * j + 45);
                 GameObject brick = new Brick(topLeftCorner,
                         new Vector2(windowDimensions.x() / 10, 15),
