@@ -18,12 +18,15 @@ public class PuckBallStrategy extends BasicCollisionStrategy {
     private final Sound sound;
     public Counter counter;
 
-    public PuckBallStrategy(BrickerGameManager gameManager, Counter counter, GameHelper gameHelper) {
+    public PuckBallStrategy(BrickerGameManager gameManager, Counter counter,
+                            GameHelper gameHelper) {
         super(gameManager, counter);
         this.gameManager = gameManager;
         this.counter = counter;
-        this.imageRenderable = gameHelper.imageReader.readImage("assets/mockBall.png", true);
-        this.sound = gameHelper.soundReader.readSound("assets/Bubble5_4.wav");
+        this.imageRenderable = gameHelper.imageReader.readImage(
+                "assets/mockBall.png", true);
+        this.sound = gameHelper.soundReader.readSound(
+                "assets/Bubble5_4.wav");
     }
 
     public void onCollision(GameObject brick, GameObject other) {
@@ -35,8 +38,8 @@ public class PuckBallStrategy extends BasicCollisionStrategy {
 
     private void createBall(Vector2 center) {
         // CREATING BALL
-        Ball ball = new Ball(Vector2.ZERO, Ball.DEFAULT_SIZE.mult(0.75f), imageRenderable, this.sound,
-                "Puck Ball", this.gameManager);
+        Ball ball = new Ball(Vector2.ZERO, Ball.DEFAULT_SIZE.mult(0.75f),
+                imageRenderable, this.sound, "Puck Ball", this.gameManager);
         // Add ball object to game
         Random rand = new Random();
         double angle = rand.nextDouble() * Math.PI;

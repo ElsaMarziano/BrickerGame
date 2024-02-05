@@ -9,7 +9,8 @@ public class GameHelper {
     public final SoundReader soundReader;
     public final UserInputListener userInputListener;
 
-    public GameHelper(ImageReader imageReader, SoundReader soundReader, UserInputListener userInputListener) {
+    public GameHelper(ImageReader imageReader, SoundReader soundReader,
+                      UserInputListener userInputListener) {
         this.imageReader = imageReader;
         this.soundReader = soundReader;
         this.userInputListener = userInputListener;

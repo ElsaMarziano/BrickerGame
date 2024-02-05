@@ -10,6 +10,7 @@ import danogl.util.Vector2;
 
 public class Heart extends GameObject {
     public static final Vector2 DEFAULT_SIZE = new Vector2(20, 20);
+    private static final int MAX_HEARTS = 4;
 
     private final Counter lifeCounter;
     private final BrickerGameManager gameManager;
@@ -25,8 +26,9 @@ public class Heart extends GameObject {
      *                         the GameObject will not be rendered.
      * @param windowDimensions
      */
-    public Heart(Vector2 topLeftCorner, Vector2 dimensions, Renderable renderable, Counter lifeCounter,
-                 BrickerGameManager gameManager, Vector2 windowDimensions) {
+    public Heart(Vector2 topLeftCorner, Vector2 dimensions, Renderable renderable,
+                 Counter lifeCounter, BrickerGameManager gameManager,
+                 Vector2 windowDimensions) {
         super(topLeftCorner, dimensions, renderable);
         this.lifeCounter = lifeCounter;
         this.gameManager = gameManager;
@@ -51,7 +53,7 @@ public class Heart extends GameObject {
     public void onCollisionEnter(GameObject other, Collision collision) {
         super.onCollisionEnter(other, collision);
         this.gameManager.deleteObject(this);
-        if (lifeCounter.value() == 4) return;
+        if (lifeCounter.value() == MAX_HEARTS) return;
         else {
             lifeCounter.increment();
         }

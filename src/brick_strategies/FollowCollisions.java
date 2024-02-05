@@ -15,7 +15,8 @@ public class FollowCollisions {
 
     public static void checkCollisions() {
         if (gameManager == null) return;
-        if (gameManager.ball.getCollisionsCounter() - collisionCount == NUM_COLLISIONS_FOR_CAMERA) {
+        if (gameManager.ball.getCollisionsCounter() - collisionCount ==
+                NUM_COLLISIONS_FOR_CAMERA) {
             gameManager.setCamera(null);
         }
     }

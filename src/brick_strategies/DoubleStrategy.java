@@ -23,11 +23,13 @@ public class DoubleStrategy implements CollisionStrategy {
         strategy2 = BrickStrategyFactory.getStrategy(gameHelper, counters,
                 windowDimensions, gameManager, doubleStrategyCount);
 
-        while (doubleStrategyCount == 2 && strategy1.getClass() == BasicCollisionStrategy.class) {
+        while (doubleStrategyCount == 2 && strategy1.getClass() ==
+                BasicCollisionStrategy.class) {
             strategy1 = BrickStrategyFactory.getStrategy(gameHelper, counters,
                     windowDimensions, gameManager, doubleStrategyCount);
         }
-        while (doubleStrategyCount == 2 && strategy2.getClass() == BasicCollisionStrategy.class) {
+        while (doubleStrategyCount == 2 && strategy2.getClass() ==
+                BasicCollisionStrategy.class) {
             strategy2 = BrickStrategyFactory.getStrategy(gameHelper, counters,
                     windowDimensions, gameManager, doubleStrategyCount);
         }

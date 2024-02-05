@@ -12,6 +12,7 @@ import danogl.util.Vector2;
 public class FakePaddle extends Paddle {
     private static volatile FakePaddle instance;
     private final GameObjectCollection gameObjects;
+    private static final int NUM_OF_COLLISIONS_UNTIL_REMOVE = 4;
     private int collisions = 0;
 
     /**
@@ -56,7 +57,7 @@ public class FakePaddle extends Paddle {
     public void onCollisionEnter(GameObject other, Collision collision) {
         super.onCollisionEnter(other, collision);
         if (other instanceof Ball) collisions++;
-        if (collisions == 4) {
+        if (collisions == NUM_OF_COLLISIONS_UNTIL_REMOVE) {
             this.gameObjects.removeGameObject(instance);
             instance = null;
         }

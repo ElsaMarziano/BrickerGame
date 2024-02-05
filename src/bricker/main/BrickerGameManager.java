@@ -141,7 +141,7 @@ public class BrickerGameManager extends GameManager {
             for (int j = 0; j < rowsBricks; j++) {
                 Vector2 topLeftCorner = new Vector2(80 * i + 45, 25 * j + 45);
                 GameObject brick = new Brick(topLeftCorner,
-                        new Vector2(windowDimensions.x() / 10, 15),
+                        new Vector2(windowDimensions.x() / (rowsBricks + 2), 15),
                         this.gameHelper.imageReader.readImage(
                                 "assets/brick.png", false),
                         BrickStrategyFactory.getStrategy(this.gameHelper,

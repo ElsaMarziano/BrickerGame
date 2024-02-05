@@ -22,16 +22,18 @@ public class Ball extends GameObject {
      * @param topLeftCorner Position of the object, in window coordinates (pixels).
      *                      Note that (0,0) is the top-left corner of the window.
      * @param dimensions    Width and height in window coordinates.
-     * @param renderable    The renderable representing the object. Can be null, in which case
-     *                      the GameObject will not be rendered.
+     * @param renderable    The renderable representing the object. Can be null,
+     *                      in which case the GameObject will not be rendered.
      */
-    public Ball(Vector2 topLeftCorner, Vector2 dimensions, Renderable renderable, Sound collisionSound, BrickerGameManager manager) {
+    public Ball(Vector2 topLeftCorner, Vector2 dimensions, Renderable renderable,
+                Sound collisionSound, BrickerGameManager manager) {
         super(topLeftCorner, dimensions, renderable);
         this.collisionSound = collisionSound;
         this.manager = manager;
     }
 
-    public Ball(Vector2 topLeftCorner, Vector2 dimensions, Renderable renderable, Sound collisionSound, String tag,
+    public Ball(Vector2 topLeftCorner, Vector2 dimensions, Renderable renderable,
+                Sound collisionSound, String tag,
                 BrickerGameManager manager) {
         super(topLeftCorner, dimensions, renderable);
         this.tag = tag;

@@ -16,11 +16,12 @@ public class AddLifeStrategy extends BasicCollisionStrategy {
     private final Vector2 windowDimensions;
     private final BrickerGameManager gameManager;
 
-    public AddLifeStrategy(BrickerGameManager gameManager, Counters counters, ImageReader imageReader,
-                           Vector2 windowDimensions) {
+    public AddLifeStrategy(BrickerGameManager gameManager, Counters counters,
+                           ImageReader imageReader, Vector2 windowDimensions) {
         super(gameManager, counters.brickCounter);
         this.gameManager = gameManager;
-        this.imageRenderable = imageReader.readImage("assets/heart.png", true);
+        this.imageRenderable = imageReader.readImage("assets/heart.png",
+                true);
         this.lifeCounter = counters.lifeCounter;
         this.windowDimensions = windowDimensions;
     }
@@ -28,7 +29,8 @@ public class AddLifeStrategy extends BasicCollisionStrategy {
     @Override
     public void onCollision(GameObject brick, GameObject other) {
         super.onCollision(brick, other);
-        Heart heart = new Heart(brick.getCenter(), Heart.DEFAULT_SIZE, this.imageRenderable, this.lifeCounter,
+        Heart heart = new Heart(brick.getCenter(), Heart.DEFAULT_SIZE,
+                this.imageRenderable, this.lifeCounter,
                 this.gameManager, this.windowDimensions);
         this.gameManager.addObject(heart);
     }
