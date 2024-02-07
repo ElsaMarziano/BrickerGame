@@ -16,15 +16,13 @@ import danogl.util.Vector2;
 import gameobjects.*;
 
 import java.awt.event.KeyEvent;
-import java.util.List;
-import java.util.Optional;
 import java.util.Random;
 
 public class BrickerGameManager extends GameManager {
     private static final int WALL_THICKNESS = 40;
     private static final int INITIAL_LIVES = 3;
-    private static final String LOSE_MASSAGE = "You lose! Play again?";
-    private static final String WIN_MASSAGE = "You win! Play again?";
+    private static final String LOSE_MESSAGE = "You lose! Play again?";
+    private static final String WIN_MESSAGE = "You win! Play again?";
     private static final String INCORRECT_NUM_OF_ARGS =
             "Invalid input, try again with 2 parameters or 0";
     public static int rowsBricks = 7;
@@ -47,11 +45,11 @@ public class BrickerGameManager extends GameManager {
     }
 
     public static void main(String[] args) {
-        Vector2 windowSize= new Vector2(700, 500);
-        if (args.length == 2){
+        Vector2 windowSize = new Vector2(700, 500);
+        if (args.length == 2) {
             rowsBricks = Integer.parseInt(args[0]);
             columnsBricks = Integer.parseInt(args[1]);
-        } else if (args.length != 0){ //num of args is not 2 and not 0
+        } else if (args.length != 0) { //num of args is not 2 and not 0
             System.err.println(INCORRECT_NUM_OF_ARGS);
         }
         new BrickerGameManager("Bricker", windowSize).run();
@@ -63,15 +61,15 @@ public class BrickerGameManager extends GameManager {
         this.gameObjects();
         String prompt = "";
         if (inputListener.isKeyPressed(KeyEvent.VK_W)) {
-            prompt = WIN_MASSAGE;
-        }else if (lives.value() == 0) {
-            prompt = LOSE_MASSAGE;
+            prompt = WIN_MESSAGE;
+        } else if (lives.value() == 0) {
+            prompt = LOSE_MESSAGE;
         } else if (brickCounter.value() == 0) {
-            prompt = WIN_MASSAGE;
+            prompt = WIN_MESSAGE;
         }
         if (!prompt.isEmpty() && windowController.openYesNoDialog(prompt)) {
             lives.reset();
-            lives.increaseBy(3);
+            lives.increaseBy(INITIAL_LIVES);
             windowController.resetGame();
         } else if (!prompt.isEmpty()) {
             windowController.closeWindow();
@@ -89,8 +87,7 @@ public class BrickerGameManager extends GameManager {
         windowDimensions = windowController.getWindowDimensions();
         this.windowController = windowController;
         GameObject background = new GameObject(
-                Vector2.ZERO,
-                windowController.getWindowDimensions(),
+                Vector2.ZERO, windowController.getWindowDimensions(),
                 imageReader.readImage("assets/DARK_BG2_small.jpeg",
                         false));
         background.setCoordinateSpace(CoordinateSpace.CAMERA_COORDINATES); // Later purposes
@@ -105,7 +102,7 @@ public class BrickerGameManager extends GameManager {
                 this.gameObjects(), lives.value());
         numericCounter = new NumericLifeCounter(lives,
                 new Vector2(windowDimensions.x() - 50,
-                windowDimensions.y() - 50), new Vector2(30, 30),
+                        windowDimensions.y() - 50), new Vector2(30, 30),
                 this.gameObjects());
 
         this.gameObjects().addGameObject(hearts, Layer.BACKGROUND);
@@ -137,11 +134,12 @@ public class BrickerGameManager extends GameManager {
     }
 
     private void createBricks(Vector2 windowDimensions) {
+        Vector2 brickSize = new Vector2(windowDimensions.x() / (columnsBricks + 2), 15);
         for (int i = 0; i < columnsBricks; i++) {
+            Vector2 previousBrickLocation = new Vector2(0, (float) (i * (rowsBricks * 15)) / 3);
             for (int j = 0; j < rowsBricks; j++) {
-                Vector2 topLeftCorner = new Vector2(80 * i + 45, 25 * j + 45);
-                GameObject brick = new Brick(topLeftCorner,
-                        new Vector2(windowDimensions.x() / (rowsBricks + 2), 15),
+                Vector2 topLeftCorner = previousBrickLocation.add(new Vector2(15 + windowDimensions.x() / (rowsBricks + 2), 0));
+                GameObject brick = new Brick(topLeftCorner, brickSize,
                         this.gameHelper.imageReader.readImage(
                                 "assets/brick.png", false),
                         BrickStrategyFactory.getStrategy(this.gameHelper,
@@ -151,6 +149,7 @@ public class BrickerGameManager extends GameManager {
                 );
                 this.gameObjects().addGameObject(brick, Layer.STATIC_OBJECTS);
                 brickCounter.increment();
+                previousBrickLocation = topLeftCorner;
             }
         }
     }
@@ -176,6 +175,12 @@ public class BrickerGameManager extends GameManager {
             if (ball.getTag().equals("Normal Ball")) {
                 lives.decrement();
                 ball.setCenter(windowDimensions.mult(0.5f));
+                Random rand = new Random();
+                int velX = 1, velY = 1;
+                if (rand.nextBoolean()) velX = -1;
+                if (rand.nextBoolean()) velY = -1;
+                ball.setVelocity(new Vector2(velX, velY).mult(100));
+
                 hearts.update();
                 numericCounter.update();
             } else this.deleteObject(ball);

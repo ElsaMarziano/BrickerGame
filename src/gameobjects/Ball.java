@@ -2,7 +2,6 @@ package gameobjects;
 
 import brick_strategies.FollowCollisions;
 import bricker.main.BrickerGameManager;
-import danogl.GameManager;
 import danogl.GameObject;
 import danogl.collisions.Collision;
 import danogl.gui.Sound;
@@ -25,6 +24,7 @@ public class Ball extends GameObject {
      * @param renderable    The renderable representing the object. Can be null,
      *                      in which case the GameObject will not be rendered.
      */
+
     public Ball(Vector2 topLeftCorner, Vector2 dimensions, Renderable renderable,
                 Sound collisionSound, BrickerGameManager manager) {
         super(topLeftCorner, dimensions, renderable);
