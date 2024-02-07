@@ -25,6 +25,7 @@ public class BrickerGameManager extends GameManager {
     private static final String WIN_MESSAGE = "You win! Play again?";
     private static final String INCORRECT_NUM_OF_ARGS =
             "Invalid input, try again with 2 parameters or 0";
+    private static final int SPACE_BETWEEN_BRICKS = 5;
     public static int rowsBricks = 7;
     public static int columnsBricks = 8;
 
@@ -134,12 +135,13 @@ public class BrickerGameManager extends GameManager {
     }
 
     private void createBricks(Vector2 windowDimensions) {
-        Vector2 brickSize = new Vector2(windowDimensions.x() / (columnsBricks + 2), 15);
-        for (int i = 0; i < columnsBricks; i++) {
-            Vector2 previousBrickLocation = new Vector2(0, (float) (i * (rowsBricks * 15)) / 3);
-            for (int j = 0; j < rowsBricks; j++) {
-                Vector2 topLeftCorner = previousBrickLocation.add(new Vector2(15 + windowDimensions.x() / (rowsBricks + 2), 0));
-                GameObject brick = new Brick(topLeftCorner, brickSize,
+        float brickLength = (windowDimensions.x() - (WALL_THICKNESS + SPACE_BETWEEN_BRICKS) * 2) / columnsBricks;
+        Vector2 brickSize = new Vector2(brickLength, 15);
+        Vector2 baseBrickLocation = new Vector2(WALL_THICKNESS + SPACE_BETWEEN_BRICKS, WALL_THICKNESS + SPACE_BETWEEN_BRICKS);
+        for (int i = 0; i < rowsBricks; i++) {
+            for (int j = 0; j < columnsBricks; j++) {
+                Vector2 topLeftCorner = baseBrickLocation.add(new Vector2(i * (brickLength + SPACE_BETWEEN_BRICKS), j * (15 + SPACE_BETWEEN_BRICKS)));
+                Brick brick = new Brick(topLeftCorner, brickSize,
                         this.gameHelper.imageReader.readImage(
                                 "assets/brick.png", false),
                         BrickStrategyFactory.getStrategy(this.gameHelper,
@@ -149,7 +151,6 @@ public class BrickerGameManager extends GameManager {
                 );
                 this.gameObjects().addGameObject(brick, Layer.STATIC_OBJECTS);
                 brickCounter.increment();
-                previousBrickLocation = topLeftCorner;
             }
         }
     }
