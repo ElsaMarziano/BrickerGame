@@ -11,7 +11,6 @@ import danogl.util.Vector2;
 import gameobjects.FakePaddle;
 
 public class AddPaddleStrategy extends BasicCollisionStrategy {
-    public static boolean paddle;
     private final BrickerGameManager gameManager;
     private final ImageRenderable paddleImage;
     private final UserInputListener inputListener;
