@@ -16,8 +16,6 @@ import danogl.util.Vector2;
 import gameobjects.*;
 
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Random;
 
 public class BrickerGameManager extends GameManager {
@@ -34,18 +32,17 @@ public class BrickerGameManager extends GameManager {
     public Counter brickCounter = new Counter(0);
     public Counter lives = new Counter(INITIAL_LIVES);
     private final Counters counters = new Counters(lives, brickCounter);
-    private Ball ball;
+    public Ball ball;
+
     private Vector2 windowDimensions;
     private WindowController windowController;
     private GraphicLifeCounter hearts;
     private NumericLifeCounter numericCounter;
     private GameHelper gameHelper;
     private UserInputListener inputListener;
-    private final ArrayList<GameObject> puckBallsInGame;
 
     public BrickerGameManager(String windowTitle, Vector2 windowSize) {
         super(windowTitle, windowSize);
-        puckBallsInGame = new ArrayList<>();
     }
 
     public static void main(String[] args) {
@@ -59,22 +56,10 @@ public class BrickerGameManager extends GameManager {
         new BrickerGameManager("Bricker", windowSize).run();
     }
 
-    public Ball getBall(){
-        return ball;
-    }
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
         this.gameObjects();
-        Iterator<GameObject> iterator = puckBallsInGame.iterator();
-        while (iterator.hasNext()) { //Check all puckBalls if there are in the screen
-            GameObject obj = iterator.next();
-            if (obj.getCenter().y() > windowDimensions.y()) {
-                iterator.remove();
-                this.deleteObject(obj);
-            }
-        }
-        handleBall(ball);
         String prompt = "";
         if (inputListener.isKeyPressed(KeyEvent.VK_W)) {
             prompt = WIN_MESSAGE;
@@ -128,7 +113,8 @@ public class BrickerGameManager extends GameManager {
         ball = new Ball(Vector2.ZERO, Ball.DEFAULT_SIZE,
                 imageReader.readImage("assets/ball.png",
                         true),
-                soundReader.readSound("assets/Bubble5_4.wav"));
+                soundReader.readSound("assets/Bubble5_4.wav"),
+                this);
         // Add ball object to game
         Random rand = new Random();
         int velX = 1, velY = 1;
@@ -184,19 +170,21 @@ public class BrickerGameManager extends GameManager {
 
     }
 
-    private void handleBall(GameObject ball) {
+    public void handleBall(Ball ball) {
         double ballHeight = ball.getCenter().y();
         if (ballHeight > windowDimensions.y()) {
-            lives.decrement();
-            ball.setCenter(windowDimensions.mult(0.5f));
-            Random rand = new Random();
-            int velX = 1, velY = 1;
-            if (rand.nextBoolean()) velX = -1;
-            if (rand.nextBoolean()) velY = -1;
-            ball.setVelocity(new Vector2(velX, velY).mult(100));
+            if (ball.getTag().equals("Normal Ball")) {
+                lives.decrement();
+                ball.setCenter(windowDimensions.mult(0.5f));
+                Random rand = new Random();
+                int velX = 1, velY = 1;
+                if (rand.nextBoolean()) velX = -1;
+                if (rand.nextBoolean()) velY = -1;
+                ball.setVelocity(new Vector2(velX, velY).mult(100));
 
-            hearts.update();
-            numericCounter.update();
+                hearts.update();
+                numericCounter.update();
+            } else this.deleteObject(ball);
         }
     }
 
@@ -210,9 +198,6 @@ public class BrickerGameManager extends GameManager {
 
     public void addObject(GameObject object) {
         this.gameObjects().addGameObject(object);
-        if (object.getTag().equals("Puck Ball")){
-            puckBallsInGame.add(object);
-        }
     }
 
     public GameObjectCollection getGameObjects() {
