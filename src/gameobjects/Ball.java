@@ -11,7 +11,6 @@ import danogl.util.Vector2;
 public class Ball extends GameObject {
     public static final Vector2 DEFAULT_SIZE = new Vector2(20, 20);
     private final Sound collisionSound;
-    private final BrickerGameManager manager;
     private String tag = "Normal Ball";
     private int collisionCount = 0;
 
@@ -26,19 +25,16 @@ public class Ball extends GameObject {
      */
 
     public Ball(Vector2 topLeftCorner, Vector2 dimensions, Renderable renderable,
-                Sound collisionSound, BrickerGameManager manager) {
+                Sound collisionSound) {
         super(topLeftCorner, dimensions, renderable);
         this.collisionSound = collisionSound;
-        this.manager = manager;
     }
 
     public Ball(Vector2 topLeftCorner, Vector2 dimensions, Renderable renderable,
-                Sound collisionSound, String tag,
-                BrickerGameManager manager) {
+                Sound collisionSound, String tag) {
         super(topLeftCorner, dimensions, renderable);
         this.tag = tag;
         this.collisionSound = collisionSound;
-        this.manager = manager;
     }
 
     @Override
@@ -52,12 +48,6 @@ public class Ball extends GameObject {
     @Override
     public String getTag() {
         return this.tag;
-    }
-
-    @Override
-    public void update(float deltaTime) {
-        super.update(deltaTime);
-        this.manager.handleBall(this);
     }
 
     public int getCollisionsCounter() {
