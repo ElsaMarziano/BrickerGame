@@ -204,4 +204,7 @@ public class BrickerGameManager extends GameManager {
         return this.gameObjects();
     }
 
+    public GameObject getBall() {
+        return ball;
+    }
 }
