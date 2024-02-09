@@ -15,8 +15,8 @@ public class GraphicLifeCounter extends GameObject {
     private final Counter livesCounter;
     private final Vector2 widgetTopLeftCorner;
     private final Renderable widgetRenderable;
-    GameObject[] hearts;
-    BrickerGameManager gameManager;
+    private final BrickerGameManager gameManager;
+    private GameObject[] hearts;
 
     /**
      * Creates a new instance of a self updating Graphic life counter

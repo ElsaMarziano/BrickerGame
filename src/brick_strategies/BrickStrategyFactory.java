@@ -11,6 +11,12 @@ public class BrickStrategyFactory {
 
     private static final int NUM_STRATEGIES = 10;  // Adjust this based on the total number of strategies
 
+    /**
+     * Default constructor for a brick strategy factory
+     */
+    public BrickStrategyFactory() {
+    }
+
     public static CollisionStrategy getStrategy(GameHelper gameHelper,
                                                 Counters counters,
                                                 Vector2 windowDimensions,

@@ -7,7 +7,13 @@ import danogl.util.Vector2;
 
 import java.awt.event.KeyEvent;
 
+/**
+ * This class represents a Paddle in a bricker game
+ */
 public class Paddle extends GameObject {
+    /**
+     * Represents the default size of the paddle.
+     */
     public static final Vector2 DEFAULT_SIZE = new Vector2(100, 15);
     private static final float MOVEMENT_SPEED = 300;
     private static final int MIN_DISTANCE_FROM_SCREEN_EDGE = 20;
@@ -31,11 +37,26 @@ public class Paddle extends GameObject {
         this.windowDimensions = windowDimensions;
     }
 
+    /**
+     * Overrides getTag function of gameObjects
+     *
+     * @return kind of paddle
+     */
     @Override
     public String getTag() {
         return "Real Paddle";
     }
 
+    /**
+     * Updates the paddle and makes sure it doesn't go over the screen limits
+     *
+     * @param deltaTime The time elapsed, in seconds, since the last frame. Can
+     *                  be used to determine a new position/velocity by multiplying
+     *                  this delta with the velocity/acceleration respectively
+     *                  and adding to the position/velocity:
+     *                  velocity += deltaTime*acceleration
+     *                  pos += deltaTime*velocity
+     */
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);

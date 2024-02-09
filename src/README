@@ -1,4 +1,42 @@
 e342791191,archsak
 342791191,207600164
 
-whatever
+1. Option 2. We added multiple functions in BrickerGameManager to both add and remove objects from the screen. Each
+collision receives BrickerGameManager as a parameter in their constructor, and calls the removeObject function when
+needed. Therefore BrickerGameManager is the only one adding and removing objects from the screen, but it does add one
+more parameter to the Strategies constructor, and if we were to use those strategies for another game, it would mean
+changing their code so they can receive a class that is not of type BrickerGameManager
+
+2. We created a NumericLifeCounter class and a GraphicLifeCounter class, which are both created by BrickManager. They
+both have an update function, which is called by the BrickManager whenever the ball falls out of the screen.
+
+3. Each strategy has its own file and class, and inherits from BasicCollisionStrategy. The onCollision function
+calls super (which destroys the brick) and then adds its own specific behavior. The BrickStrategyFactory class has a
+getStrategy function which returns a random strategy from the existing ones, with 1/2 chances of being chose for the
+basic collision and 1/10 for all of the remaining ones. Also created a FollowCollisions class which follows the number
+of collisions of the Ball
+AddLifeStrategy: On collision, this class creates a new Heart object through the game manager. The Heart class is in
+charge of what happens when hitting the paddle.
+AddPaddleStrategy: On collision, calls the getInstance method of FakePaddle. FakePaddle is a singleton and is
+responsible of having ony one instance of itself at once, and disappearing when the right number of collisions with
+Ball is reached.
+ChangeFocusStrategy: On collision, changes the camera angle. Then creates a new FollowCollisions class, which follow the
+Ball's collisions and returns the camera back to normal when the desired number of collisions is reached.
+PuckBallStrategy: On collision, creates two Ball instances with tag "Puck Ball" so as to differentiate between them and
+the normal ball.
+
+4.
+DoubleStrategy receives a strategyCounter parameter, and updates it every time it's called. This counter has to pass
+through the factory which is not ideal. Then, in the onCollision function, each strategy is called only if the number
+associated with the doubleStrategy that created them is lower than 3 (or 2 if it's the second strategy we're calling in
+this function). 3 is saved in a constant which can easily be changed.
+Notice that the BasicCollisionStrategy, which is the class responsible of destroying the brick and updates the counter,
+will update the counter only if BrickerGameManager successfully removed the brick from the gameObjects. Which means, in
+the event of a double strategy where each strategy calls the onCollision function of BasicCollisionStrategy, only the
+first strategy will update the counter, because only the first strategy removed the brick, as you can't remove an
+object twice from gameObjects, and the counter updates itself only once per brick.
+
+5. Changes in API:
+Ball:
+- An additional constructor that gets a tag parameter. Default is Normal Ball.
+- getTag() function which returns the tag. This helps differentiate between a normal ball and puck ball.

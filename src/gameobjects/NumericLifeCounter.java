@@ -11,7 +11,7 @@ import danogl.util.Vector2;
 import java.awt.Color;
 
 /**
- * This class represent a numeric lif counter for the Bricker game
+ * This class represent a numeric life counter for the Bricker game
  */
 public class NumericLifeCounter extends GameObject {
     private final BrickerGameManager gameManager;

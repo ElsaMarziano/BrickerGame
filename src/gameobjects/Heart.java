@@ -12,6 +12,9 @@ import danogl.util.Vector2;
  * This class represents a falling heart which will add a life if the Paddle catches it
  */
 public class Heart extends GameObject {
+    /**
+     * Represent the default size of a heart
+     */
     public static final Vector2 DEFAULT_SIZE = new Vector2(20, 20);
     private static final int MAX_HEARTS = 4;
 
