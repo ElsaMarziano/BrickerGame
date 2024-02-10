@@ -68,8 +68,6 @@ public class BrickerGameManager extends GameManager {
         if (args.length == 2) {
             rowsBricks = Integer.parseInt(args[0]);
             columnsBricks = Integer.parseInt(args[1]);
-        } else if (args.length != 0) { //num of args is not 2 and not 0
-            System.err.println(INCORRECT_NUM_OF_ARGS);
         }
         new BrickerGameManager("Bricker", windowSize).run();
     }
