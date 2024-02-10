@@ -82,7 +82,7 @@ public class Ball extends GameObject {
      *
      * @return number of times the ball collided with something
      */
-    public int getCollisionsCounter() {
+    public int getCollisionCounter() {
         return collisionCount;
     }
 

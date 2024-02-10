@@ -18,7 +18,7 @@ public class FollowCollisions {
      */
     public FollowCollisions(BrickerGameManager gameManager) {
         FollowCollisions.gameManager = gameManager;
-        collisionCount = gameManager.getBall().getCollisionsCounter();
+        collisionCount = gameManager.getBall().getCollisionCounter();
     }
 
     /**
@@ -26,7 +26,7 @@ public class FollowCollisions {
      */
     public static void checkCollisions() {
         if (gameManager == null) return;
-        if (gameManager.getBall().getCollisionsCounter() - collisionCount ==
+        if (gameManager.getBall().getCollisionCounter() - collisionCount ==
                 NUM_COLLISIONS_FOR_CAMERA) {
             gameManager.setCamera(null);
         }
