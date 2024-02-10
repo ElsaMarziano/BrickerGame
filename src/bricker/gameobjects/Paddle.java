@@ -28,7 +28,7 @@ public class Paddle extends GameObject {
      * @param dimensions    Width and height in window coordinates.
      * @param renderable    The renderable representing the object. Can be null, in which case
      *                      the GameObject will not be rendered.
-     * @param inputListener
+     * @param inputListener The inputListener is an object that get the input from the user.
      */
     public Paddle(Vector2 topLeftCorner, Vector2 dimensions, Renderable renderable,
                   UserInputListener inputListener, Vector2 windowDimensions) {
@@ -70,8 +70,10 @@ public class Paddle extends GameObject {
         // Ensure paddle doesn't go off the screen
         if (getTopLeftCorner().x() < MIN_DISTANCE_FROM_SCREEN_EDGE) {
             transform().setTopLeftCornerX(MIN_DISTANCE_FROM_SCREEN_EDGE);
-        } else if (getTopLeftCorner().x() > windowDimensions.x() - MIN_DISTANCE_FROM_SCREEN_EDGE - getDimensions().x()) {
-            transform().setTopLeftCornerX(windowDimensions.x() - MIN_DISTANCE_FROM_SCREEN_EDGE - getDimensions().x());
+        } else if (getTopLeftCorner().x() > windowDimensions.x() - MIN_DISTANCE_FROM_SCREEN_EDGE -
+                getDimensions().x()) {
+            transform().setTopLeftCornerX(windowDimensions.x() - MIN_DISTANCE_FROM_SCREEN_EDGE -
+                    getDimensions().x());
         }
     }
 }

@@ -27,8 +27,9 @@ public class GraphicLifeCounter extends GameObject {
      * @param gameManager         Game manager to add and remove objects
      * @param numOfLives          Int of the remaining number of lives
      */
-    public GraphicLifeCounter(Vector2 widgetTopLeftCorner, Vector2 widgetDimensions, Counter livesCounter,
-                              Renderable widgetRenderable, BrickerGameManager gameManager, int numOfLives) {
+    public GraphicLifeCounter(Vector2 widgetTopLeftCorner, Vector2 widgetDimensions,
+                              Counter livesCounter, Renderable widgetRenderable,
+                              BrickerGameManager gameManager, int numOfLives) {
         super(widgetTopLeftCorner, widgetDimensions, null);
         this.livesCounter = livesCounter;
         this.gameManager = gameManager;

@@ -12,7 +12,8 @@ import java.util.Random;
  */
 public class BrickStrategyFactory {
 
-    private static final int NUM_STRATEGIES = 10;  // Adjust this based on the total number of strategies
+    // Adjust this based on the total number of strategies
+    private static final int NUM_STRATEGIES = 10;
 
     /**
      * Default constructor for a brick strategy factory

@@ -13,7 +13,6 @@ import danogl.gui.WindowController;
 import danogl.gui.rendering.Renderable;
 import danogl.util.Counter;
 import danogl.util.Vector2;
-import gameobjects.*;
 
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -21,7 +20,8 @@ import java.util.Iterator;
 import java.util.Random;
 
 /**
- * This class describes the manager of a Bricker Game, where each brick can have a special behavior
+ * This class describes the manager of a Bricker Game, where each brick can have a special
+ * behavior
  *
  * @see BrickStrategyFactory
  */
@@ -75,8 +75,8 @@ public class BrickerGameManager extends GameManager {
     }
 
     /**
-     * Overrides the update function of GameManager. Handles win and loss conditions, update lives when needed,
-     * handle balls position
+     * Overrides the update function of GameManager. Handles win and loss conditions,
+     * update lives when needed,handle balls position
      *
      * @param deltaTime The time, in seconds, that passed since the last invocation
      *                  of this method (i.e., since the last frame). This is useful
@@ -183,16 +183,21 @@ public class BrickerGameManager extends GameManager {
     }
 
 
-    /* This function creates bricks according to the window dimensions and the number of rows and columns.
-     * It calls the Brick constructor and the BrickStrategyFactory to assign a Strategy to each brick
+    /* This function creates bricks according to the window dimensions and the number of rows and
+     columns.
+     * It calls the Brick constructor and the BrickStrategyFactory to assign a Strategy to each
+      brick
      * */
     private void createBricks(Vector2 windowDimensions) {
-        float brickLength = (windowDimensions.x() - (WALL_THICKNESS + SPACE_BETWEEN_BRICKS) * 2) / columnsBricks;
+        float brickLength = (windowDimensions.x() -
+                (WALL_THICKNESS + SPACE_BETWEEN_BRICKS) * 2) / columnsBricks;
         Vector2 brickSize = new Vector2(brickLength, 15);
-        Vector2 baseBrickLocation = new Vector2(WALL_THICKNESS + SPACE_BETWEEN_BRICKS, WALL_THICKNESS + SPACE_BETWEEN_BRICKS);
+        Vector2 baseBrickLocation = new Vector2(WALL_THICKNESS + SPACE_BETWEEN_BRICKS,
+                WALL_THICKNESS + SPACE_BETWEEN_BRICKS);
         for (int i = 0; i < rowsBricks; i++) {
             for (int j = 0; j < columnsBricks; j++) {
-                Vector2 topLeftCorner = baseBrickLocation.add(new Vector2(i * (brickLength + SPACE_BETWEEN_BRICKS), j * (15 + SPACE_BETWEEN_BRICKS)));
+                Vector2 topLeftCorner = baseBrickLocation.add(new Vector2(i *
+                        (brickLength + SPACE_BETWEEN_BRICKS), j * (15 + SPACE_BETWEEN_BRICKS)));
                 Brick brick = new Brick(topLeftCorner, brickSize,
                         this.gameHelper.imageReader.readImage(
                                 "assets/brick.png", false),

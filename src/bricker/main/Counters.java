@@ -4,7 +4,8 @@ package bricker.main;
 import danogl.util.Counter;
 
 /**
- * This class contains every counter needed for the BrickerGameManager, and is mainly intended for clarity
+ * This class contains every counter needed for the BrickerGameManager, and is mainly intended for
+ * clarity
  */
 public class Counters {
     /**

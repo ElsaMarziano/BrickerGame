@@ -64,8 +64,8 @@ public class FakePaddle extends Paddle {
     }
 
     /**
-     * If collided with a ball, add one to the collisions. If we got to the max number of collisions allowed,
-     * remove fake paddle
+     * If collided with a ball, add one to the collisions. If we got to the max number of collisions
+     * allowed, remove fake paddle
      *
      * @param other     The GameObject with which a collision occurred.
      * @param collision Information regarding this collision.

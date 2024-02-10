@@ -2,7 +2,6 @@ package bricker.gameobjects;
 
 import bricker.main.BrickerGameManager;
 import danogl.GameObject;
-import danogl.collisions.GameObjectCollection;
 import danogl.collisions.Layer;
 import danogl.gui.rendering.TextRenderable;
 import danogl.util.Counter;
@@ -29,8 +28,8 @@ public class NumericLifeCounter extends GameObject {
      * @param dimensions                  Size of the counter
      * @param gameManager                 Game Manager to update counter
      */
-    public NumericLifeCounter(Counter livesCounter, Vector2 numericCounterTopLeftCorner, Vector2 dimensions,
-                              BrickerGameManager gameManager) {
+    public NumericLifeCounter(Counter livesCounter, Vector2 numericCounterTopLeftCorner,
+                              Vector2 dimensions, BrickerGameManager gameManager) {
         super(numericCounterTopLeftCorner, dimensions, null);
         this.livesCounter = livesCounter;
         this.numericCounterTopLeftCorner = numericCounterTopLeftCorner;

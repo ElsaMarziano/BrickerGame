@@ -43,8 +43,8 @@ public class Ball extends GameObject {
      * @param dimensions    Width and height in window coordinates.
      * @param renderable    The renderable representing the object. Can be null,
      *                      in which case the GameObject will not be rendered.
-     * @param tag           If needed, the tag we want the getTag function to return. Used mainly to differentiate
-     *                      between normal ball and puck ball
+     * @param tag           If needed, the tag we want the getTag function to return. Used mainly
+     *                      to differentiate between normal ball and puck ball
      */
     public Ball(Vector2 topLeftCorner, Vector2 dimensions, Renderable renderable,
                 Sound collisionSound, String tag) {

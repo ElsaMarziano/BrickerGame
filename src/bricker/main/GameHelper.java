@@ -6,7 +6,8 @@ import danogl.gui.UserInputListener;
 
 
 /**
- * This class contains useful things belonging to BrickerGameManager, and is mainly intended for clarity
+ * This class contains useful things belonging to BrickerGameManager, and is mainly intended for
+ * clarity
  */
 public class GameHelper {
     /**
