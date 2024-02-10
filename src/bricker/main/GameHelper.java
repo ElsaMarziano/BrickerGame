@@ -9,8 +9,18 @@ import danogl.gui.UserInputListener;
  * This class contains useful things belonging to BrickerGameManager, and is mainly intended for clarity
  */
 public class GameHelper {
+    /**
+     * A self-explanatory image reader
+     */
     public final ImageReader imageReader;
+    /**
+     * A self-explanatory sound reader
+     */
     public final SoundReader soundReader;
+    /**
+     * A self-explanatory input listener
+     */
+
     public final UserInputListener userInputListener;
 
     /**

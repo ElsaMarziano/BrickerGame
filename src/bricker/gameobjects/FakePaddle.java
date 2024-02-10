@@ -1,9 +1,8 @@
-package gameobjects;
+package bricker.gameobjects;
 
 import bricker.main.BrickerGameManager;
 import danogl.GameObject;
 import danogl.collisions.Collision;
-import danogl.collisions.GameObjectCollection;
 import danogl.gui.UserInputListener;
 import danogl.gui.rendering.ImageRenderable;
 import danogl.gui.rendering.Renderable;
@@ -53,7 +52,7 @@ public class FakePaddle extends Paddle {
         if (instance == null) {
             synchronized (FakePaddle.class) {
                 if (instance == null) {
-                    instance = new FakePaddle(Vector2.ZERO, Paddle.DEFAULT_SIZE,
+                    instance = new FakePaddle(Vector2.ZERO, DEFAULT_SIZE,
                             paddleImage, inputListener,
                             windowDimensions, gameManager);
                     instance.setCenter(new Vector2(windowDimensions.x(),

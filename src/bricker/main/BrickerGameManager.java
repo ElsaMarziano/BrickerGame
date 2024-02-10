@@ -1,9 +1,9 @@
 package bricker.main;
 
-import brick_strategies.BrickStrategyFactory;
+import bricker.brick_strategies.BrickStrategyFactory;
+import bricker.gameobjects.*;
 import danogl.GameManager;
 import danogl.GameObject;
-import danogl.collisions.GameObjectCollection;
 import danogl.collisions.Layer;
 import danogl.components.CoordinateSpace;
 import danogl.gui.ImageReader;
@@ -16,6 +16,8 @@ import danogl.util.Vector2;
 import gameobjects.*;
 
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 
 /**
@@ -31,14 +33,13 @@ public class BrickerGameManager extends GameManager {
     private static final String INCORRECT_NUM_OF_ARGS =
             "Invalid input, try again with 2 parameters or 0";
     private static final int SPACE_BETWEEN_BRICKS = 5;
-    public static int rowsBricks = 7;
-    public static int columnsBricks = 8;
-
-    public Counter brickCounter = new Counter(0);
-    public Counter lives = new Counter(INITIAL_LIVES);
+    private static int rowsBricks = 7;
+    private static int columnsBricks = 8;
+    private final ArrayList<GameObject> puckBallsInGame;
+    private final Counter brickCounter = new Counter(0);
+    private final Counter lives = new Counter(INITIAL_LIVES);
     private final Counters counters = new Counters(lives, brickCounter);
-    public Ball ball;
-
+    private Ball ball;
     private Vector2 windowDimensions;
     private WindowController windowController;
     private GraphicLifeCounter hearts;
@@ -54,6 +55,7 @@ public class BrickerGameManager extends GameManager {
      */
     public BrickerGameManager(String windowTitle, Vector2 windowSize) {
         super(windowTitle, windowSize);
+        puckBallsInGame = new ArrayList<>();
     }
 
     /**
@@ -87,6 +89,15 @@ public class BrickerGameManager extends GameManager {
     public void update(float deltaTime) {
         super.update(deltaTime);
         this.gameObjects();
+        Iterator<GameObject> iterator = puckBallsInGame.iterator();
+        while (iterator.hasNext()) { //Check all puckBalls if there are in the screen
+            GameObject obj = iterator.next();
+            if (obj.getCenter().y() > windowDimensions.y()) {
+                iterator.remove();
+                this.deleteObject(obj);
+            }
+        }
+        handleBall(ball);
         String prompt = "";
         if (inputListener.isKeyPressed(KeyEvent.VK_W)) {
             prompt = WIN_MESSAGE;
@@ -114,21 +125,19 @@ public class BrickerGameManager extends GameManager {
      * @param inputListener    Contains a single method: isKeyPressed, which returns whether
      *                         a given key is currently pressed by the user or not. See its
      *                         documentation.
-     * @param windowController Contains an array of helpful, self explanatory methods
+     * @param windowController Contains an array of helpful, self-explanatory methods
      *                         concerning the window.
      */
     @Override
     public void initializeGame(ImageReader imageReader, SoundReader soundReader,
                                UserInputListener inputListener,
                                WindowController windowController) {
-        // Initialize game, save everything in fields
-        super.initializeGame(imageReader, soundReader, inputListener,
-                windowController);
         this.inputListener = inputListener;
         this.gameHelper = new GameHelper(imageReader, soundReader, inputListener);
+        super.initializeGame(imageReader, soundReader, inputListener,
+                windowController);
         windowDimensions = windowController.getWindowDimensions();
         this.windowController = windowController;
-        // Create background, walls, bricks and lives
         GameObject background = new GameObject(
                 Vector2.ZERO, windowController.getWindowDimensions(),
                 imageReader.readImage("assets/DARK_BG2_small.jpeg",
@@ -137,20 +146,24 @@ public class BrickerGameManager extends GameManager {
         gameObjects().addGameObject(background, Layer.BACKGROUND);
         createWalls(windowDimensions);
         createBricks(windowDimensions);
-        hearts = new GraphicLifeCounter(new Vector2(60, windowDimensions.y() - 10), new Vector2(30, 30),
-                lives, imageReader.readImage("assets/heart.png", true),
+
+        hearts = new GraphicLifeCounter(new Vector2(60,
+                windowDimensions.y() - 10), new Vector2(30, 30),
+                lives, imageReader.readImage("assets/heart.png",
+                true),
                 this, lives.value());
         numericCounter = new NumericLifeCounter(lives,
-                new Vector2(windowDimensions.x() - 50, windowDimensions.y() - 50), new Vector2(30, 30),
+                new Vector2(windowDimensions.x() - 50,
+                        windowDimensions.y() - 50), new Vector2(30, 30),
                 this);
+
         this.gameObjects().addGameObject(hearts, Layer.BACKGROUND);
         this.gameObjects().addGameObject(numericCounter, Layer.BACKGROUND);
         // CREATING BALL
         ball = new Ball(Vector2.ZERO, Ball.DEFAULT_SIZE,
                 imageReader.readImage("assets/ball.png",
                         true),
-                soundReader.readSound("assets/Bubble5_4.wav"),
-                this);
+                soundReader.readSound("assets/Bubble5_4.wav"));
         // Add ball object to game
         Random rand = new Random();
         int velX = 1, velY = 1;
@@ -169,18 +182,16 @@ public class BrickerGameManager extends GameManager {
         this.gameObjects().addGameObject(paddle);
     }
 
+
     /* This function creates bricks according to the window dimensions and the number of rows and columns.
      * It calls the Brick constructor and the BrickStrategyFactory to assign a Strategy to each brick
      * */
     private void createBricks(Vector2 windowDimensions) {
-        // Calculate brick length according to number of bricks and size of window
         float brickLength = (windowDimensions.x() - (WALL_THICKNESS + SPACE_BETWEEN_BRICKS) * 2) / columnsBricks;
         Vector2 brickSize = new Vector2(brickLength, 15);
         Vector2 baseBrickLocation = new Vector2(WALL_THICKNESS + SPACE_BETWEEN_BRICKS, WALL_THICKNESS + SPACE_BETWEEN_BRICKS);
-        // Create eahc row and oclumn of bricks
         for (int i = 0; i < rowsBricks; i++) {
             for (int j = 0; j < columnsBricks; j++) {
-                // Calculate position of new brick according to index and base position
                 Vector2 topLeftCorner = baseBrickLocation.add(new Vector2(i * (brickLength + SPACE_BETWEEN_BRICKS), j * (15 + SPACE_BETWEEN_BRICKS)));
                 Brick brick = new Brick(topLeftCorner, brickSize,
                         this.gameHelper.imageReader.readImage(
@@ -190,7 +201,6 @@ public class BrickerGameManager extends GameManager {
                                 windowDimensions, this,
                                 0)
                 );
-                // Add brick to gameObjects
                 this.gameObjects().addGameObject(brick, Layer.STATIC_OBJECTS);
                 brickCounter.increment();
             }
@@ -198,18 +208,16 @@ public class BrickerGameManager extends GameManager {
     }
 
     /* This function creates two walls on the sides and an upper wall.
-     * */
+     */
     private void createWalls(Vector2 windowDimensions) {
-        // Left wall
+        // WALLS
         gameObjects().addGameObject(
                 new GameObject(Vector2.ZERO, new Vector2(WALL_THICKNESS,
                         windowDimensions.y()), null));
-        // Right wall
         gameObjects().addGameObject(
                 new GameObject(new Vector2(windowDimensions.x(), 0),
                         new Vector2(WALL_THICKNESS, windowDimensions.y()),
                         null));
-        // Upper wall
         gameObjects().addGameObject(
                 new GameObject(Vector2.ZERO, new Vector2(windowDimensions.x(),
                         WALL_THICKNESS), null));
@@ -217,31 +225,24 @@ public class BrickerGameManager extends GameManager {
     }
 
     /*
-    This function handles the behavior of all the balls when they exit the screen.
-    For the normal ball, update lives and return it to the center.
-    For puck balls, delete it from the game objects
-    */
-    public void handleBall(Ball ball) {
+This function handles the behavior of the main ball when it exits the screen:
+ update lives and return it to the center.
+*/
+    private void handleBall(Ball ball) {
         double ballHeight = ball.getCenter().y();
-        // If ball got out of screen
         if (ballHeight > windowDimensions.y()) {
-            // Normal ball behavior
-            if (ball.getTag().equals("Normal Ball")) {
-                lives.decrement();
-                // Return to center
-                ball.setCenter(windowDimensions.mult(0.5f));
-                Random rand = new Random();
-                int velX = 1, velY = 1;
-                if (rand.nextBoolean()) velX = -1;
-                if (rand.nextBoolean()) velY = -1;
-                // Give new direction
-                ball.setVelocity(new Vector2(velX, velY).mult(100));
-                // Update lives
-                hearts.update();
-                numericCounter.update();
-            } else this.deleteObject(ball); // For puck balls - delete them from gameObjects
+            lives.decrement();
+            ball.setCenter(windowDimensions.mult(0.5f));
+            Random rand = new Random();
+            int velX = 1, velY = 1;
+            if (rand.nextBoolean()) velX = -1;
+            if (rand.nextBoolean()) velY = -1;
+            ball.setVelocity(new Vector2(velX, velY).mult(100));
+            hearts.update();
+            numericCounter.update();
         }
     }
+
 
     /**
      * This function removes an object from the gameObjects container
@@ -271,6 +272,9 @@ public class BrickerGameManager extends GameManager {
      */
     public void addObject(GameObject object) {
         this.gameObjects().addGameObject(object);
+        if (object.getTag().equals("Puck Ball")) {
+            puckBallsInGame.add(object);
+        }
     }
 
     /**
@@ -279,18 +283,17 @@ public class BrickerGameManager extends GameManager {
      * @param object the object to remove
      * @param layer  the layer to remove the object from
      */
+
     public void addObject(GameObject object, int layer) {
         this.gameObjects().addGameObject(object, layer);
     }
 
-
     /**
-     * This function return the gameObjects present in the game
+     * This function return the Ball object
      *
-     * @return this.gameObjects
+     * @return Ball
      */
-    public GameObjectCollection getGameObjects() {
-        return this.gameObjects();
+    public Ball getBall() {
+        return ball;
     }
-
 }

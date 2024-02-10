@@ -7,7 +7,13 @@ import danogl.util.Counter;
  * This class contains every counter needed for the BrickerGameManager, and is mainly intended for clarity
  */
 public class Counters {
+    /**
+     * The number of lives left
+     */
     public Counter lifeCounter;
+    /**
+     * The number of bricks left
+     */
     public Counter brickCounter;
 
     /**

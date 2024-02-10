@@ -1,4 +1,4 @@
-package brick_strategies;
+package bricker.brick_strategies;
 
 import bricker.main.BrickerGameManager;
 import bricker.main.Counters;
@@ -7,6 +7,9 @@ import danogl.util.Vector2;
 
 import java.util.Random;
 
+/**
+ * Factory class for creating different types of brick collision strategies.
+ */
 public class BrickStrategyFactory {
 
     private static final int NUM_STRATEGIES = 10;  // Adjust this based on the total number of strategies
@@ -17,6 +20,16 @@ public class BrickStrategyFactory {
     public BrickStrategyFactory() {
     }
 
+    /**
+     * Get a random brick collision strategy.
+     *
+     * @param gameHelper          The game helper containing resources and utilities.
+     * @param counters            The counters tracking game metrics.
+     * @param windowDimensions    The dimensions of the game window.
+     * @param gameManager         The game manager managing game objects.
+     * @param doubleStrategyCount The count of double strategies used.
+     * @return A collision strategy for bricks.
+     */
     public static CollisionStrategy getStrategy(GameHelper gameHelper,
                                                 Counters counters,
                                                 Vector2 windowDimensions,
