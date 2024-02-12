@@ -30,8 +30,6 @@ public class BrickerGameManager extends GameManager {
     private static final int INITIAL_LIVES = 3;
     private static final String LOSE_MESSAGE = "You lose! Play again?";
     private static final String WIN_MESSAGE = "You win! Play again?";
-    private static final String INCORRECT_NUM_OF_ARGS =
-            "Invalid input, try again with 2 parameters or 0";
     private static final int SPACE_BETWEEN_BRICKS = 5;
     private static int rowsBricks = 7;
     private static int columnsBricks = 8;
@@ -128,35 +126,19 @@ public class BrickerGameManager extends GameManager {
      */
     @Override
     public void initializeGame(ImageReader imageReader, SoundReader soundReader,
-                               UserInputListener inputListener,
-                               WindowController windowController) {
+                               UserInputListener inputListener, WindowController windowController) {
         this.inputListener = inputListener;
         this.gameHelper = new GameHelper(imageReader, soundReader, inputListener);
-        super.initializeGame(imageReader, soundReader, inputListener,
-                windowController);
+        super.initializeGame(imageReader, soundReader, inputListener, windowController);
         windowDimensions = windowController.getWindowDimensions();
         this.windowController = windowController;
-        GameObject background = new GameObject(
-                Vector2.ZERO, windowController.getWindowDimensions(),
-                imageReader.readImage("assets/DARK_BG2_small.jpeg",
-                        false));
-        background.setCoordinateSpace(CoordinateSpace.CAMERA_COORDINATES); // Later purposes
+        GameObject background = new GameObject(Vector2.ZERO, windowController.getWindowDimensions(),
+                imageReader.readImage("assets/DARK_BG2_small.jpeg", false));
+        background.setCoordinateSpace(CoordinateSpace.CAMERA_COORDINATES);
         gameObjects().addGameObject(background, Layer.BACKGROUND);
-        createWalls(windowDimensions);
-        createBricks(windowDimensions);
-
-        hearts = new GraphicLifeCounter(new Vector2(60,
-                windowDimensions.y() - 10), new Vector2(30, 30),
-                lives, imageReader.readImage("assets/heart.png",
-                true),
-                this, lives.value());
-        numericCounter = new NumericLifeCounter(lives,
-                new Vector2(windowDimensions.x() - 50,
-                        windowDimensions.y() - 50), new Vector2(30, 30),
-                this);
-
-        this.gameObjects().addGameObject(hearts, Layer.BACKGROUND);
-        this.gameObjects().addGameObject(numericCounter, Layer.BACKGROUND);
+        createWalls();
+        createBricks();
+        createLifeCounters(imageReader);
         // CREATING BALL
         ball = new Ball(Vector2.ZERO, Ball.DEFAULT_SIZE,
                 imageReader.readImage("assets/ball.png",
@@ -186,7 +168,7 @@ public class BrickerGameManager extends GameManager {
      * It calls the Brick constructor and the BrickStrategyFactory to assign a Strategy to each
       brick
      * */
-    private void createBricks(Vector2 windowDimensions) {
+    private void createBricks() {
         float brickLength = (windowDimensions.x() -
                 (WALL_THICKNESS + SPACE_BETWEEN_BRICKS) * 2) / columnsBricks;
         Vector2 brickSize = new Vector2(brickLength, 15);
@@ -212,7 +194,7 @@ public class BrickerGameManager extends GameManager {
 
     /* This function creates two walls on the sides and an upper wall.
      */
-    private void createWalls(Vector2 windowDimensions) {
+    private void createWalls() {
         // WALLS
         gameObjects().addGameObject(
                 new GameObject(Vector2.ZERO, new Vector2(WALL_THICKNESS,
@@ -225,6 +207,20 @@ public class BrickerGameManager extends GameManager {
                 new GameObject(Vector2.ZERO, new Vector2(windowDimensions.x(),
                         WALL_THICKNESS), null));
 
+    }
+
+    private void createLifeCounters(ImageReader imageReader) {
+        hearts = new GraphicLifeCounter(new Vector2(60,
+                windowDimensions.y() - 10), new Vector2(30, 30),
+                lives, imageReader.readImage("assets/heart.png",
+                true),
+                this, lives.value());
+        numericCounter = new NumericLifeCounter(lives,
+                new Vector2(windowDimensions.x() - 50,
+                        windowDimensions.y() - 50), new Vector2(30, 30),
+                this);
+        this.gameObjects().addGameObject(hearts, Layer.BACKGROUND);
+        this.gameObjects().addGameObject(numericCounter, Layer.BACKGROUND);
     }
 
     /*
