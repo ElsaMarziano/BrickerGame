@@ -10,6 +10,7 @@ import danogl.util.Vector2;
  * This class represents a single brick in a bricker game, with an unknown collision strategy
  */
 public class Brick extends GameObject {
+    public static final String BRICK_IMAGE = "assets/brick.png";
     private final CollisionStrategy collisionStrategy;
 
     /**

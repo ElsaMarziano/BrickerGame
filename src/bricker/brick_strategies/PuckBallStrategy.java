@@ -33,7 +33,7 @@ public class PuckBallStrategy extends BasicCollisionStrategy {
         this.imageRenderable = gameHelper.imageReader.readImage(
                 "assets/mockBall.png", true);
         this.sound = gameHelper.soundReader.readSound(
-                "assets/Bubble5_4.wav");
+                Ball.BLOP_SOUND);
     }
 
     /**

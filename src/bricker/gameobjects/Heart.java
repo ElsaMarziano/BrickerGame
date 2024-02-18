@@ -16,6 +16,11 @@ public class Heart extends GameObject {
      * Represent the default size of a heart
      */
     public static final Vector2 DEFAULT_SIZE = new Vector2(20, 20);
+
+    /**
+     * Image of the heart.
+     */
+    public static final String HEART_IMAGE = "assets/heart.png";
     private static final int MAX_HEARTS = 4;
 
     private final Counter lifeCounter;

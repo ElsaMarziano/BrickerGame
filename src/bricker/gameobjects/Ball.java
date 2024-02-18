@@ -15,6 +15,18 @@ public class Ball extends GameObject {
      * Default size of the ball
      */
     public static final Vector2 DEFAULT_SIZE = new Vector2(20, 20);
+
+    /**
+     * Image of the ball.
+     */
+    public static final String BALL_IMAGE = "assets/ball.png";
+
+
+    /**
+     * Default sound for the collision of the ball.
+     */
+    public static final String BLOP_SOUND = "assets/Bubble5_4.wav";
+
     private final Sound collisionSound;
     private String tag = "Normal Ball";
     private int collisionCount = 0;
