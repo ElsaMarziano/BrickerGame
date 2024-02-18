@@ -35,6 +35,8 @@ public class BrickerGameManager extends GameManager {
     private static final String BACKGROUND = "assets/DARK_BG2_small.jpeg";
 
     private static final int PADDING = 50;
+    private static final Vector2 DEFAULT_WINDOW_SIZE = new Vector2(700, 500);
+    private static final Vector2 NUMERIC_COUNTER_SIZE = new Vector2(30, 30);
     private static int rowsBricks = 7;
     private static int columnsBricks = 8;
     private final ArrayList<GameObject> puckBallsInGame;
@@ -66,7 +68,7 @@ public class BrickerGameManager extends GameManager {
      * @param args rows and bricks (user)
      */
     public static void main(String[] args) {
-        Vector2 windowSize = new Vector2(700, 500);
+        Vector2 windowSize = DEFAULT_WINDOW_SIZE;
         if (args.length == 2) {
             rowsBricks = Integer.parseInt(args[0]);
             columnsBricks = Integer.parseInt(args[1]);
@@ -223,7 +225,7 @@ public class BrickerGameManager extends GameManager {
                 this, lives.value());
         numericCounter = new NumericLifeCounter(lives,
                 new Vector2(windowDimensions.x() - PADDING,
-                        windowDimensions.y() - PADDING), new Vector2(30, 30),
+                        windowDimensions.y() - PADDING), NUMERIC_COUNTER_SIZE,
                 this);
         this.gameObjects().addGameObject(hearts, Layer.BACKGROUND);
         this.gameObjects().addGameObject(numericCounter, Layer.BACKGROUND);
@@ -277,7 +279,7 @@ This function handles the behavior of the main ball when it exits the screen:
      */
     public void addObject(GameObject object) {
         this.gameObjects().addGameObject(object);
-        if (object.getTag().equals("Puck Ball")) {
+        if (object.getTag().equals(Ball.PUCK_BALL_TAG)) {
             puckBallsInGame.add(object);
         }
     }

@@ -26,6 +26,10 @@ public class Ball extends GameObject {
      * Default sound for the collision of the ball.
      */
     public static final String BLOP_SOUND = "assets/Bubble5_4.wav";
+    /**
+     * The tag of puck ball.
+     */
+    public static final String PUCK_BALL_TAG = "Puck Ball";
 
     private final Sound collisionSound;
     private String tag = "Normal Ball";
