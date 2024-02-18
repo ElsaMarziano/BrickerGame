@@ -15,6 +15,7 @@ public class Paddle extends GameObject {
      * Represents the default size of the paddle.
      */
     public static final Vector2 DEFAULT_SIZE = new Vector2(100, 15);
+    public static final String PATH_OF_PADDLE_PICTURE = "assets/paddle.png";
     private static final float MOVEMENT_SPEED = 300;
     private static final int MIN_DISTANCE_FROM_SCREEN_EDGE = 20;
 
@@ -24,7 +25,7 @@ public class Paddle extends GameObject {
     public static final String PADDLE_IMAGE = "assets/paddle.png";
 
     private final UserInputListener inputListener;
-    private Vector2 windowDimensions;
+    private final Vector2 windowDimensions;
 
     /**
      * Construct a new GameObject instance.

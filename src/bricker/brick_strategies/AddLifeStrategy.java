@@ -6,7 +6,6 @@ import danogl.GameObject;
 import danogl.gui.ImageReader;
 import danogl.gui.rendering.ImageRenderable;
 import danogl.util.Counter;
-import danogl.util.Vector2;
 import bricker.gameobjects.Heart;
 
 /**
@@ -14,28 +13,25 @@ import bricker.gameobjects.Heart;
  * adding life to the player.
  */
 public class AddLifeStrategy extends BasicCollisionStrategy {
+    private static final String PATH_OF_HEART_PICTURE = "assets/heart.png";
     private final ImageRenderable imageRenderable;
     private final Counter lifeCounter;
-    private final Vector2 windowDimensions;
     private final BrickerGameManager gameManager;
-    private final String PATH_OF_HEART_PICTURE = "assets/heart.png";
 
     /**
      * Constructs an AddLifeStrategy instance.
      *
-     * @param gameManager      The game manager instance.
-     * @param counters         The counters containing game stats.
-     * @param imageReader      The image reader for loading images.
-     * @param windowDimensions The dimensions of the game window.
+     * @param gameManager The game manager instance.
+     * @param counters    The counters containing game stats.
+     * @param imageReader The image reader for loading images.
      */
     public AddLifeStrategy(BrickerGameManager gameManager, Counters counters,
-                           ImageReader imageReader, Vector2 windowDimensions) {
+                           ImageReader imageReader) {
         super(gameManager, counters.brickCounter);
         this.gameManager = gameManager;
         this.imageRenderable = imageReader.readImage(PATH_OF_HEART_PICTURE,
                 true);
         this.lifeCounter = counters.lifeCounter;
-        this.windowDimensions = windowDimensions;
     }
 
     /**
@@ -51,7 +47,7 @@ public class AddLifeStrategy extends BasicCollisionStrategy {
         super.onCollision(brick, other);
         Heart heart = new Heart(brick.getCenter(), Heart.DEFAULT_SIZE,
                 this.imageRenderable, this.lifeCounter,
-                this.gameManager, this.windowDimensions);
+                this.gameManager, this.gameManager.getWindowDimensions());
         this.gameManager.addObject(heart);
     }
 }

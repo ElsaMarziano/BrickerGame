@@ -15,6 +15,7 @@ import danogl.util.Vector2;
  */
 public class FakePaddle extends Paddle {
     private static final int NUM_OF_COLLISIONS_UNTIL_REMOVE = 4;
+    private static final String FAKE_PADDLE = "Fake Paddle";
     private static volatile FakePaddle instance;
     private final BrickerGameManager gameManager;
     private int collisions = 0;
@@ -22,41 +23,38 @@ public class FakePaddle extends Paddle {
     /**
      * Construct a new FakePaddle instance.
      *
-     * @param topLeftCorner    Position of the object, in window coordinates (pixels).
-     *                         Note that (0,0) is the top-left corner of the window.
-     * @param dimensions       Width and height in window coordinates.
-     * @param renderable       The renderable representing the object.
-     *                         Can be null, in which case the GameObject will not
-     *                         be rendered.
-     * @param inputListener    Listen to user input so as to know if to move left or right
-     * @param windowDimensions Allows paddle not to move past the border of the window
-     * @param gameManager      The manager of the game so it can add objects
+     * @param topLeftCorner Position of the object, in window coordinates (pixels).
+     *                      Note that (0,0) is the top-left corner of the window.
+     * @param dimensions    Width and height in window coordinates.
+     * @param renderable    The renderable representing the object.
+     *                      Can be null, in which case the GameObject will not
+     *                      be rendered.
+     * @param inputListener Listen to user input so as to know if to move left or right
+     * @param gameManager   The manager of the game so it can add objects
      */
     private FakePaddle(Vector2 topLeftCorner, Vector2 dimensions,
                        Renderable renderable, UserInputListener inputListener,
-                       Vector2 windowDimensions, BrickerGameManager gameManager) {
-        super(topLeftCorner, dimensions, renderable, inputListener, windowDimensions);
+                       BrickerGameManager gameManager) {
+        super(topLeftCorner, dimensions, renderable, inputListener,
+                gameManager.getWindowDimensions());
         this.gameManager = gameManager;
     }
 
     /**
-     * @param paddleImage      the renderable for the fake paddle
-     * @param inputListener    listen to user input so we can move the fake paddle left and right
-     * @param windowDimensions so we know when the paddle goes out of the screen
-     * @param gameManager      so we can erase the paddle when needed
+     * @param paddleImage   the renderable for the fake paddle
+     * @param inputListener listen to user input so we can move the fake paddle left and right
+     * @param gameManager   so we can erase the paddle when needed
      */
     public static void getInstance(ImageRenderable paddleImage,
                                    UserInputListener inputListener,
-                                   Vector2 windowDimensions,
                                    BrickerGameManager gameManager) {
         if (instance == null) {
             synchronized (FakePaddle.class) {
                 if (instance == null) {
                     instance = new FakePaddle(Vector2.ZERO, DEFAULT_SIZE,
-                            paddleImage, inputListener,
-                            windowDimensions, gameManager);
-                    instance.setCenter(new Vector2(windowDimensions.x(),
-                            windowDimensions.y()).mult(0.5f));
+                            paddleImage, inputListener, gameManager);
+                    instance.setCenter(gameManager.getWindowDimensions()
+                            .mult(BrickerGameManager.MIDDLE));
                     gameManager.addObject(instance);
                 }
             }
@@ -80,5 +78,10 @@ public class FakePaddle extends Paddle {
             this.gameManager.deleteObject(instance);
             instance = null;
         }
+    }
+
+    @Override
+    public String getTag() {
+        return FAKE_PADDLE;
     }
 }

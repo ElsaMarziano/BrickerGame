@@ -15,7 +15,7 @@ public class GraphicLifeCounter extends GameObject {
     private final Vector2 widgetTopLeftCorner;
     private final Renderable widgetRenderable;
     private final BrickerGameManager gameManager;
-    private GameObject[] hearts;
+    private final GameObject[] hearts;
 
     /**
      * Creates a new instance of a self updating Graphic life counter
@@ -38,9 +38,11 @@ public class GraphicLifeCounter extends GameObject {
         // Initialize the hearts array
         this.hearts = new GameObject[numOfLives + 1];
         for (int i = 0; i < numOfLives; i++) {
-            GameObject heart = new GameObject(new Vector2(i * 30,
-                    widgetTopLeftCorner.y() - 50),
-                    Heart.DEFAULT_SIZE, widgetRenderable);
+            GameObject heart =
+                    new GameObject(new Vector2(i * (Heart.DEFAULT_SIZE.x() +
+                            BrickerGameManager.SPACE_BETWEEN_THINGS),
+                            widgetTopLeftCorner.y() - BrickerGameManager.PADDING),
+                            Heart.DEFAULT_SIZE, widgetRenderable);
             hearts[i] = heart;
             gameManager.addObject(heart, Layer.BACKGROUND);
         }
@@ -78,9 +80,10 @@ public class GraphicLifeCounter extends GameObject {
      */
     private void addLife() {
         int lives = livesCounter.value();
-        GameObject heart = new GameObject(new Vector2((lives - 1) * 30,
-                widgetTopLeftCorner.y() - 50),
-                new Vector2(20, 20), widgetRenderable);
+
+        GameObject heart = new GameObject(new Vector2((lives - 1) * (Heart.DEFAULT_SIZE.x() +
+                BrickerGameManager.SPACE_BETWEEN_THINGS), widgetTopLeftCorner.y() -
+                BrickerGameManager.PADDING), Heart.DEFAULT_SIZE, widgetRenderable);
         hearts[lives - 1] = heart;
         this.gameManager.addObject(heart, Layer.BACKGROUND);
     }

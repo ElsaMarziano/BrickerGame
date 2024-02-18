@@ -11,21 +11,18 @@ import danogl.util.Vector2;
  * This strategy is triggered when a collision occurs between a brick and another game object.
  */
 public class ChangeFocusStrategy extends BasicCollisionStrategy {
+    private static final float WIDDEN = 1.2f;
     private final BrickerGameManager gameManager;
-    private final Vector2 windowDimensions;
 
     /**
      * Constructs a new ChangeFocusStrategy.
      *
-     * @param gameManager      The game manager managing game objects.
-     * @param counter          The counter tracking the number of bricks.
-     * @param windowDimensions The dimensions of the game window.
+     * @param gameManager The game manager managing game objects.
+     * @param counter     The counter tracking the number of bricks.
      */
-    public ChangeFocusStrategy(BrickerGameManager gameManager, Counter counter,
-                               Vector2 windowDimensions) {
+    public ChangeFocusStrategy(BrickerGameManager gameManager, Counter counter) {
         super(gameManager, counter);
         this.gameManager = gameManager;
-        this.windowDimensions = windowDimensions;
     }
 
     /**
@@ -44,8 +41,9 @@ public class ChangeFocusStrategy extends BasicCollisionStrategy {
                     new Camera(
                             this.gameManager.getBall(), //object to follow
                             Vector2.ZERO, //follow the center of the object
-                            this.windowDimensions.mult(1.2f), //widen the frame a bit
-                            this.windowDimensions //share the window dimensions
+                            this.gameManager.getWindowDimensions().mult(WIDDEN), //widen the frame
+                            // a bit
+                            this.gameManager.getWindowDimensions() //share the window dimensions
                     )
             );
             new FollowCollisions(gameManager);

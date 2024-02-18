@@ -10,7 +10,6 @@ import danogl.util.Counter;
  * when a collision occurs and decrements a counter.
  */
 public class BasicCollisionStrategy implements CollisionStrategy {
-
     private final BrickerGameManager gameManager;
     private final Counter counter;
 

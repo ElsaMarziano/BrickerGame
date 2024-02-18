@@ -3,7 +3,6 @@ package bricker.gameobjects;
 import bricker.main.BrickerGameManager;
 import danogl.GameObject;
 import danogl.collisions.Collision;
-import danogl.collisions.GameObjectCollection;
 import danogl.gui.rendering.Renderable;
 import danogl.util.Counter;
 import danogl.util.Vector2;
@@ -22,7 +21,7 @@ public class Heart extends GameObject {
      */
     public static final String HEART_IMAGE = "assets/heart.png";
     private static final int MAX_HEARTS = 4;
-
+    private static final String REAL_PADDLE = "Real Paddle";
     private final Counter lifeCounter;
     private final BrickerGameManager gameManager;
     private final Vector2 windowDimensions;
@@ -73,7 +72,7 @@ public class Heart extends GameObject {
      */
     @Override
     public boolean shouldCollideWith(GameObject other) {
-        return other.getTag().equals("Real Paddle"); // Collides only with real paddle
+        return other.getTag().equals(REAL_PADDLE); // Collides only with real paddle
     }
 
     /**
@@ -88,10 +87,6 @@ public class Heart extends GameObject {
     public void onCollisionEnter(GameObject other, Collision collision) {
         super.onCollisionEnter(other, collision);
         this.gameManager.deleteObject(this);
-        if (lifeCounter.value() == MAX_HEARTS) return;
-        else {
-            lifeCounter.increment();
-        }
-
+        if (lifeCounter.value() < MAX_HEARTS) lifeCounter.increment();
     }
 }

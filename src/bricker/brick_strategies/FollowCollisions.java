@@ -6,7 +6,6 @@ import bricker.main.BrickerGameManager;
  * Monitors collisions and removes the camera focus after a certain number of collisions.
  */
 public class FollowCollisions {
-
     private static final int NUM_COLLISIONS_FOR_CAMERA = 4;
     private static int collisionCount;
     private static BrickerGameManager gameManager = null;

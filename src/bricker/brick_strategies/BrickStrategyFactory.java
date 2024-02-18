@@ -3,7 +3,6 @@ package bricker.brick_strategies;
 import bricker.main.BrickerGameManager;
 import bricker.main.Counters;
 import bricker.main.GameHelper;
-import danogl.util.Vector2;
 
 import java.util.Random;
 
@@ -26,14 +25,12 @@ public class BrickStrategyFactory {
      *
      * @param gameHelper          The game helper containing resources and utilities.
      * @param counters            The counters tracking game metrics.
-     * @param windowDimensions    The dimensions of the game window.
      * @param gameManager         The game manager managing game objects.
      * @param doubleStrategyCount The count of double strategies used.
      * @return A collision strategy for bricks.
      */
     public static CollisionStrategy getStrategy(GameHelper gameHelper,
                                                 Counters counters,
-                                                Vector2 windowDimensions,
                                                 BrickerGameManager gameManager,
                                                 int doubleStrategyCount) {
         // Use a random number generator to choose between the
@@ -46,13 +43,12 @@ public class BrickStrategyFactory {
             case 5 -> new PuckBallStrategy(gameManager, counters.brickCounter,
                     gameHelper);
             case 6 -> new AddPaddleStrategy(gameManager, counters.brickCounter,
-                    gameHelper, windowDimensions);
-            case 7 -> new ChangeFocusStrategy(gameManager, counters.brickCounter,
-                    windowDimensions);
+                    gameHelper);
+            case 7 -> new ChangeFocusStrategy(gameManager, counters.brickCounter);
             case 8 -> new AddLifeStrategy(gameManager, counters,
-                    gameHelper.imageReader, windowDimensions);
+                    gameHelper.imageReader);
             case 9 -> new DoubleStrategy(gameHelper,
-                    counters, windowDimensions, gameManager,
+                    counters, gameManager,
                     doubleStrategyCount + 1);
             default -> throw new IllegalStateException("Unexpected value: " +
                     strategyIndex);

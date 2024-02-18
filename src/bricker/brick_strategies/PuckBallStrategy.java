@@ -15,6 +15,8 @@ import java.util.Random;
  * A strategy for creating additional balls ("Puck Balls") upon collision with some bricks.
  */
 public class PuckBallStrategy extends BasicCollisionStrategy {
+    private final static String PUCK_BALL_IMAGE = "assets/mockBall.png";
+    private static final float THREE_QUARTERS = 0.75f;
     private final BrickerGameManager gameManager;
     private final ImageRenderable imageRenderable;
     private final Sound sound;
@@ -31,7 +33,7 @@ public class PuckBallStrategy extends BasicCollisionStrategy {
         super(gameManager, counter);
         this.gameManager = gameManager;
         this.imageRenderable = gameHelper.imageReader.readImage(
-                "assets/mockBall.png", true);
+                PUCK_BALL_IMAGE, true);
         this.sound = gameHelper.soundReader.readSound(
                 Ball.BLOP_SOUND);
     }
@@ -57,7 +59,7 @@ public class PuckBallStrategy extends BasicCollisionStrategy {
      */
     private void createBall(Vector2 center) {
         // Creating ball
-        Ball ball = new Ball(Vector2.ZERO, Ball.DEFAULT_SIZE.mult(0.75f),
+        Ball ball = new Ball(Vector2.ZERO, Ball.DEFAULT_SIZE.mult(THREE_QUARTERS),
                 imageRenderable, this.sound, "Puck Ball");
         // Add ball object to game
         Random rand = new Random();

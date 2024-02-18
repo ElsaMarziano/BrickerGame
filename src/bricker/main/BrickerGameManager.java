@@ -26,15 +26,26 @@ import java.util.Random;
  * @see BrickStrategyFactory
  */
 public class BrickerGameManager extends GameManager {
+    /**
+     * Default padding for any object
+     */
+    public static final int PADDING = 50;
+    /**
+     * Default space between two objects of the same kind
+     */
+    public static final int SPACE_BETWEEN_THINGS = 5;
+    /**
+     * Middle of the screen
+     */
+    public static final float MIDDLE = 0.5f;
+    public static final int BRICK_HEIGHT = 15;
     private static final int WALL_THICKNESS = 40;
     private static final int INITIAL_LIVES = 3;
     private static final String LOSE_MESSAGE = "You lose! Play again?";
     private static final String WIN_MESSAGE = "You win! Play again?";
-    private static final int SPACE_BETWEEN_BRICKS = 5;
     private static final String GAME_NAME = "Bricker";
     private static final String BACKGROUND = "assets/DARK_BG2_small.jpeg";
 
-    private static final int PADDING = 50;
     private static final Vector2 DEFAULT_WINDOW_SIZE = new Vector2(700, 500);
     private static final Vector2 NUMERIC_COUNTER_SIZE = new Vector2(30, 30);
     private static int rowsBricks = 7;
@@ -68,12 +79,11 @@ public class BrickerGameManager extends GameManager {
      * @param args rows and bricks (user)
      */
     public static void main(String[] args) {
-        Vector2 windowSize = DEFAULT_WINDOW_SIZE;
         if (args.length == 2) {
             rowsBricks = Integer.parseInt(args[0]);
             columnsBricks = Integer.parseInt(args[1]);
         }
-        new BrickerGameManager(GAME_NAME, windowSize).run();
+        new BrickerGameManager(GAME_NAME, DEFAULT_WINDOW_SIZE).run();
     }
 
     /**
@@ -133,9 +143,9 @@ public class BrickerGameManager extends GameManager {
     @Override
     public void initializeGame(ImageReader imageReader, SoundReader soundReader,
                                UserInputListener inputListener, WindowController windowController) {
+        super.initializeGame(imageReader, soundReader, inputListener, windowController);
         this.inputListener = inputListener;
         this.gameHelper = new GameHelper(imageReader, soundReader, inputListener);
-        super.initializeGame(imageReader, soundReader, inputListener, windowController);
         windowDimensions = windowController.getWindowDimensions();
         this.windowController = windowController;
         GameObject background = new GameObject(Vector2.ZERO, windowController.getWindowDimensions(),
@@ -147,25 +157,28 @@ public class BrickerGameManager extends GameManager {
         createLifeCounters(imageReader);
         // CREATING BALL
         ball = new Ball(Vector2.ZERO, Ball.DEFAULT_SIZE,
-                imageReader.readImage(Ball.BALL_IMAGE,
-                        true),
+                imageReader.readImage(Ball.BALL_IMAGE, true),
                 soundReader.readSound(Ball.BLOP_SOUND));
-        // Add ball object to game
+        createBall();
+        // CREATING PADDLE
+        Renderable paddleImage = imageReader.readImage(Paddle.PADDLE_IMAGE, true);
+        GameObject paddle = new Paddle(Vector2.ZERO, Paddle.DEFAULT_SIZE,
+                paddleImage, inputListener, windowDimensions);
+        paddle.setCenter(new Vector2(windowDimensions.x() / 2, windowDimensions.y() - PADDING));
+        this.gameObjects().addGameObject(paddle);
+    }
+
+    /*
+    This function creates a ball and puts it in the center
+     */
+    private void createBall() {
         Random rand = new Random();
         int velX = 1, velY = 1;
         if (rand.nextBoolean()) velX = -1;
         if (rand.nextBoolean()) velY = -1;
         ball.setVelocity(new Vector2(velX, velY).mult(100));
-        ball.setCenter(windowDimensions.mult(0.5f));
+        ball.setCenter(windowDimensions.mult(MIDDLE));
         this.addObject(ball);
-        // CREATING PADDLE
-        Renderable paddleImage = imageReader.readImage(Paddle.PADDLE_IMAGE,
-                true);
-        GameObject paddle = new Paddle(Vector2.ZERO, Paddle.DEFAULT_SIZE,
-                paddleImage, inputListener, windowDimensions);
-        paddle.setCenter(new Vector2(windowDimensions.x() / 2,
-                windowDimensions.y() - PADDING));
-        this.gameObjects().addGameObject(paddle);
     }
 
 
@@ -175,24 +188,21 @@ public class BrickerGameManager extends GameManager {
       brick
      * */
     private void createBricks() {
-        int brickHeight = 15;
         float brickLength = (windowDimensions.x() -
-                (WALL_THICKNESS + SPACE_BETWEEN_BRICKS) * 2) / columnsBricks;
-        Vector2 brickSize = new Vector2(brickLength, brickHeight);
-        Vector2 baseBrickLocation = new Vector2(WALL_THICKNESS + SPACE_BETWEEN_BRICKS,
-                WALL_THICKNESS + SPACE_BETWEEN_BRICKS);
+                (WALL_THICKNESS + SPACE_BETWEEN_THINGS) * 2) / columnsBricks;
+        Vector2 brickSize = new Vector2(brickLength, BRICK_HEIGHT);
+        Vector2 baseBrickLocation = new Vector2(WALL_THICKNESS + SPACE_BETWEEN_THINGS,
+                WALL_THICKNESS + SPACE_BETWEEN_THINGS);
         for (int i = 0; i < rowsBricks; i++) {
             for (int j = 0; j < columnsBricks; j++) {
                 Vector2 topLeftCorner = baseBrickLocation.add(new Vector2(i *
-                        (brickLength + SPACE_BETWEEN_BRICKS), j * (brickHeight +
-                        SPACE_BETWEEN_BRICKS)));
+                        (brickLength + SPACE_BETWEEN_THINGS), j * (BRICK_HEIGHT +
+                        SPACE_BETWEEN_THINGS)));
                 Brick brick = new Brick(topLeftCorner, brickSize,
                         this.gameHelper.imageReader.readImage(
                                 Brick.BRICK_IMAGE, false),
                         BrickStrategyFactory.getStrategy(this.gameHelper,
-                                this.counters,
-                                windowDimensions, this,
-                                0)
+                                this.counters, this, 0)
                 );
                 this.gameObjects().addGameObject(brick, Layer.STATIC_OBJECTS);
                 brickCounter.increment();
@@ -239,7 +249,7 @@ This function handles the behavior of the main ball when it exits the screen:
         double ballHeight = ball.getCenter().y();
         if (ballHeight > windowDimensions.y()) {
             lives.decrement();
-            ball.setCenter(windowDimensions.mult(0.5f));
+            ball.setCenter(windowDimensions.mult(MIDDLE));
             Random rand = new Random();
             int velX = 1, velY = 1;
             if (rand.nextBoolean()) velX = -1;
@@ -249,7 +259,6 @@ This function handles the behavior of the main ball when it exits the screen:
             numericCounter.update();
         }
     }
-
 
     /**
      * This function removes an object from the gameObjects container
@@ -302,5 +311,14 @@ This function handles the behavior of the main ball when it exits the screen:
      */
     public Ball getBall() {
         return ball;
+    }
+
+    /**
+     * This function return the window dimensions
+     *
+     * @return Vector2 representing the dimensions of the window
+     */
+    public Vector2 getWindowDimensions() {
+        return this.windowDimensions;
     }
 }

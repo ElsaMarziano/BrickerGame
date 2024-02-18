@@ -4,7 +4,6 @@ import bricker.main.BrickerGameManager;
 import bricker.main.Counters;
 import bricker.main.GameHelper;
 import danogl.GameObject;
-import danogl.util.Vector2;
 
 /**
  * Implements a collision strategy that combines two other collision strategies and
@@ -23,31 +22,30 @@ public class DoubleStrategy implements CollisionStrategy {
      * @param gameHelper          The GameHelper object providing game-related resources
      *                            and functionality.
      * @param counters            The Counters object managing game counters.
-     * @param windowDimensions    The dimensions of the game window.
      * @param gameManager         The GameManager managing the game.
      * @param doubleStrategyCount The count of double strategies applied.
      */
     public DoubleStrategy(GameHelper gameHelper,
-                          Counters counters, Vector2 windowDimensions,
+                          Counters counters,
                           BrickerGameManager gameManager, int doubleStrategyCount) {
         this.doubleStrategyCount = doubleStrategyCount;
 
         // Get two strategies using the BrickStrategyFactory
         strategy1 = BrickStrategyFactory.getStrategy(gameHelper, counters,
-                windowDimensions, gameManager, doubleStrategyCount);
+                gameManager, doubleStrategyCount);
         strategy2 = BrickStrategyFactory.getStrategy(gameHelper, counters,
-                windowDimensions, gameManager, doubleStrategyCount);
+                gameManager, doubleStrategyCount);
 
         // Ensure that both strategies are not BasicCollisionStrategy when doubleStrategyCount is 2
         while (doubleStrategyCount == 2 && strategy1.getClass() ==
                 BasicCollisionStrategy.class) {
             strategy1 = BrickStrategyFactory.getStrategy(gameHelper, counters,
-                    windowDimensions, gameManager, doubleStrategyCount);
+                    gameManager, doubleStrategyCount);
         }
         while (doubleStrategyCount == 2 && strategy2.getClass() ==
                 BasicCollisionStrategy.class) {
             strategy2 = BrickStrategyFactory.getStrategy(gameHelper, counters,
-                    windowDimensions, gameManager, doubleStrategyCount);
+                    gameManager, doubleStrategyCount);
         }
 
     }

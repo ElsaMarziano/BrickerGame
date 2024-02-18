@@ -1,12 +1,12 @@
 package bricker.brick_strategies;
 
+import bricker.gameobjects.Paddle;
 import bricker.main.BrickerGameManager;
 import bricker.main.GameHelper;
 import danogl.GameObject;
 import danogl.gui.UserInputListener;
 import danogl.gui.rendering.ImageRenderable;
 import danogl.util.Counter;
-import danogl.util.Vector2;
 import bricker.gameobjects.FakePaddle;
 
 /**
@@ -17,28 +17,23 @@ public class AddPaddleStrategy extends BasicCollisionStrategy {
     private final BrickerGameManager gameManager;
     private final ImageRenderable paddleImage;
     private final UserInputListener inputListener;
-    private final Vector2 windowDimensions;
-    private final String PATH_OF_PADDLE_PICTURE = "assets/paddle.png";
 
 
     /**
      * Constructs an AddPaddleStrategy instance with the specified parameters.
      *
-     * @param gameManager      The game manager instance.
-     * @param brickCounter     The counter for tracking the number of bricks.
-     * @param gameHelper       The helper class containing necessary game components
-     *                         (imageReader and so on).
-     * @param windowDimensions The dimensions of the game window.
+     * @param gameManager  The game manager instance.
+     * @param brickCounter The counter for tracking the number of bricks.
+     * @param gameHelper   The helper class containing necessary game components
+     *                     (imageReader and so on).
      */
     public AddPaddleStrategy(BrickerGameManager gameManager, Counter brickCounter,
-                             GameHelper gameHelper, Vector2 windowDimensions) {
+                             GameHelper gameHelper) {
         super(gameManager, brickCounter);
         this.gameManager = gameManager;
-        this.paddleImage = gameHelper.imageReader.readImage(PATH_OF_PADDLE_PICTURE,
+        this.paddleImage = gameHelper.imageReader.readImage(Paddle.PATH_OF_PADDLE_PICTURE,
                 false);
         this.inputListener = gameHelper.userInputListener;
-        this.windowDimensions = windowDimensions;
-
     }
 
     /**
@@ -50,7 +45,7 @@ public class AddPaddleStrategy extends BasicCollisionStrategy {
      */
     public void onCollision(GameObject brick, GameObject other) {
         super.onCollision(brick, other);
-        FakePaddle.getInstance(paddleImage, inputListener, windowDimensions,
+        FakePaddle.getInstance(paddleImage, inputListener,
                 gameManager);
     }
 }
